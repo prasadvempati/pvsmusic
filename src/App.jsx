@@ -22,17 +22,6 @@ function detectLanguage(title, description = "") {
   return "english";
 }
 
-// Parse ISO 8601 duration to seconds
-function parseDuration(iso) {
-  if (!iso) return 999;
-  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-  if (!match) return 999;
-  const h = parseInt(match[1] || 0);
-  const m = parseInt(match[2] || 0);
-  const s = parseInt(match[3] || 0);
-  return h * 3600 + m * 60 + s;
-}
-
 function MusicNote({ style }) {
   return (
     <svg style={style} viewBox="0 0 24 24" fill="currentColor">
@@ -89,7 +78,7 @@ function SubscribeButton() {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("all");
-  const [formatMode, setFormatMode] = useState("videos"); // "videos" | "shorts"
+  const [formatMode, setFormatMode] = useState("videos");
   const [aboutOpen, setAboutOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [videos, setVideos] = useState([]);
@@ -102,6 +91,35 @@ export default function App() {
     fetchAllVideos();
   }, []);
 
+  async function isShortVideo(videoId) {
+    // Check if a video is a Short by trying to fetch its shorts URL
+    // YouTube Shorts have aspect ratio info in the video details
+    try {
+      const res = await fetch(
+        `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${videoId}&key=${YOUTUBE_API_KEY}`
+      );
+      const data = await res.json();
+      if (!data.items?.length) return false;
+      const item = data.items[0];
+      // Shorts are vertical - check for #Shorts tag in title/description/tags
+      const text = (item.snippet.title + " " + (item.snippet.description || "") + " " + (item.snippet.tags || []).join(" ")).toLowerCase();
+      if (text.includes("#shorts") || text.includes("#short")) return true;
+      // Also check duration <= 180s (3 min max for Shorts)
+      const dur = item.contentDetails.duration;
+      const match = dur.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+      if (match) {
+        const h = parseInt(match[1] || 0);
+        const m = parseInt(match[2] || 0);
+        const s = parseInt(match[3] || 0);
+        const totalSecs = h * 3600 + m * 60 + s;
+        if (totalSecs <= 180) return true;
+      }
+      return false;
+    } catch {
+      return false;
+    }
+  }
+
   async function fetchAllVideos() {
     try {
       setLoading(true);
@@ -112,7 +130,6 @@ export default function App() {
       if (!channelData.items?.length) throw new Error("Channel not found");
       const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
 
-      // Fetch all playlist items
       let allItems = [];
       let nextPageToken = "";
       do {
@@ -127,28 +144,39 @@ export default function App() {
         nextPageToken = data.nextPageToken || "";
       } while (nextPageToken);
 
-      // Fetch durations in batches of 50
+      // Fetch video details in batches of 50 to get duration + tags
       const videoIds = allItems.map(item => item.snippet.resourceId.videoId);
-      let durationMap = {};
+      let detailsMap = {};
       for (let i = 0; i < videoIds.length; i += 50) {
         const batch = videoIds.slice(i, i + 50).join(",");
         const dRes = await fetch(
-          `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${batch}&key=${YOUTUBE_API_KEY}`
+          `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${batch}&key=${YOUTUBE_API_KEY}`
         );
         const dData = await dRes.json();
         dData.items?.forEach(v => {
-          durationMap[v.id] = parseDuration(v.contentDetails.duration);
+          const dur = v.contentDetails.duration;
+          const match = dur.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+          let totalSecs = 999;
+          if (match) {
+            totalSecs = parseInt(match[1] || 0) * 3600 + parseInt(match[2] || 0) * 60 + parseInt(match[3] || 0);
+          }
+          const tags = (v.snippet.tags || []).join(" ").toLowerCase();
+          const desc = (v.snippet.description || "").toLowerCase();
+          const title = (v.snippet.title || "").toLowerCase();
+          const hasShortTag = tags.includes("short") || desc.includes("#shorts") || desc.includes("#short") || title.includes("#shorts");
+          detailsMap[v.id] = {
+            isShort: hasShortTag || totalSecs <= 180,
+            duration: totalSecs,
+          };
         });
       }
 
-      // Classify each video
       const allVideos = [];
       const allShorts = [];
 
       allItems.forEach(item => {
         const id = item.snippet.resourceId.videoId;
-        const duration = durationMap[id] || 999;
-        const isShort = duration <= 60;
+        const details = detailsMap[id] || { isShort: false };
         const video = {
           id,
           title: item.snippet.title,
@@ -156,9 +184,8 @@ export default function App() {
           thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url,
           publishedAt: item.snippet.publishedAt,
           language: detectLanguage(item.snippet.title, item.snippet.description),
-          duration,
         };
-        if (isShort) allShorts.push(video);
+        if (details.isShort) allShorts.push(video);
         else allVideos.push(video);
       });
 
@@ -173,10 +200,7 @@ export default function App() {
   }
 
   const currentPool = formatMode === "shorts" ? shorts : videos;
-  const filteredVideos = activeTab === "all"
-    ? currentPool
-    : currentPool.filter(v => v.language === activeTab);
-
+  const filteredVideos = activeTab === "all" ? currentPool : currentPool.filter(v => v.language === activeTab);
   const countFor = (tab, mode) => {
     const pool = mode === "shorts" ? shorts : videos;
     return tab === "all" ? pool.length : pool.filter(v => v.language === tab).length;
@@ -220,48 +244,27 @@ export default function App() {
           <span className="hero-line-2">Borders</span>
         </h1>
         <p className="hero-sub">All original music. No covers, no remixes. Pure creative expression in Hindi, English, and Spanish — composed from the ground up.</p>
-        {!loading && (
-          <p className="video-count">{videos.length} Songs · {shorts.length} Shorts</p>
-        )}
+        {!loading && <p className="video-count">{videos.length} Songs · {shorts.length} Shorts</p>}
       </section>
 
-      {/* Tabs + Toggle */}
       <div className="tabs-bar">
         <div className="tabs-row">
           <div className="tabs-inner">
             {TABS.map((tab) => (
-              <button
-                key={tab.key}
-                className={`tab-btn ${activeTab === tab.key ? "active" : ""}`}
-                onClick={() => setActiveTab(tab.key)}
-              >
+              <button key={tab.key} className={`tab-btn ${activeTab === tab.key ? "active" : ""}`} onClick={() => setActiveTab(tab.key)}>
                 <span className="tab-primary">{tab.label}</span>
                 {tab.sublabel && <span className="tab-secondary">{tab.sublabel}</span>}
-                {!loading && (
-                  <span className="tab-count">{countFor(tab.key, formatMode)}</span>
-                )}
+                {!loading && <span className="tab-count">{countFor(tab.key, formatMode)}</span>}
               </button>
             ))}
           </div>
-
-          {/* Format Toggle */}
           <div className="format-toggle">
-            <button
-              className={`toggle-btn ${formatMode === "videos" ? "active" : ""}`}
-              onClick={() => setFormatMode("videos")}
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-                <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
-              </svg>
+            <button className={`toggle-btn ${formatMode === "videos" ? "active" : ""}`} onClick={() => setFormatMode("videos")}>
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
               Videos
             </button>
-            <button
-              className={`toggle-btn ${formatMode === "shorts" ? "active" : ""}`}
-              onClick={() => setFormatMode("shorts")}
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-                <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
-              </svg>
+            <button className={`toggle-btn ${formatMode === "shorts" ? "active" : ""}`} onClick={() => setFormatMode("shorts")}>
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
               Shorts
             </button>
           </div>
@@ -269,23 +272,11 @@ export default function App() {
       </div>
 
       <main className="song-grid-wrap">
-        {loading && (
-          <div className="loading-state">
-            <div className="spinner" />
-            <p>Loading your music catalog…</p>
-          </div>
-        )}
-        {error && (
-          <div className="empty-state">
-            <MusicNote style={{ width: 48, height: 48 }} />
-            <p>{error}</p>
-          </div>
-        )}
+        {loading && <div className="loading-state"><div className="spinner" /><p>Loading your music catalog…</p></div>}
+        {error && <div className="empty-state"><MusicNote style={{ width: 48, height: 48 }} /><p>{error}</p></div>}
         {!loading && !error && (
           <div className={`song-grid ${formatMode === "shorts" ? "song-grid--shorts" : ""}`} key={`${activeTab}-${formatMode}`}>
-            {filteredVideos.map((video, i) => (
-              <SongCard key={video.id} video={video} index={i} isShort={formatMode === "shorts"} />
-            ))}
+            {filteredVideos.map((video, i) => <SongCard key={video.id} video={video} index={i} isShort={formatMode === "shorts"} />)}
             {filteredVideos.length === 0 && (
               <div className="empty-state">
                 <MusicNote style={{ width: 64, height: 64 }} />
