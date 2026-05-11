@@ -72,5 +72,5 @@ export const channelInfo = {
   youtubeChannelUrl: "https://www.youtube.com/@PVSMusic",
   instagramUrl: "https://www.instagram.com/PVSMusic",
   aboutText:
-    "PVS Music is an original music brand creating songs in Hindi, English, and Spanish — blending Bollywood soul, classical Raaga roots, and contemporary global sounds. Every song is an authentic expression, produced with passion and AI-assisted composition through Suno AI.",
+    "All original music. No covers, no remixes. Pure creative expression in Hindi, English, and Spanish — composed from the ground up."
 };
