@@ -5,7 +5,7 @@ const YOUTUBE_API_KEY = "AIzaSyAKqCFsfA2Fm_X2dQ11qJEwlnOg9OKH34I";
 const CHANNEL_HANDLE = "pvs4001";
 
 const TABS = [
-  { key: "all", label: "All Songs" },
+  { key: "all", label: "All" },
   { key: "hindi", label: "हिंदी", sublabel: "Hindi" },
   { key: "english", label: "English" },
   { key: "spanish", label: "Español", sublabel: "Spanish" },
@@ -16,11 +16,21 @@ function detectLanguage(title, description = "") {
   const hindiScript = /[\u0900-\u097F]/;
   const hindiWords = ["hindi", "dil", "pyar", "mohabbat", "tere", "mere", "tera", "mera", "aaj", "raat", "zindagi", "yaad", "ishq", "teri", "meri"];
   const spanishWords = ["español", "spanish", "amor", "corazón", "siempre", "mar ", "vida", "noche", "bella", "perfecta", "vuelvo", "estrellas", "quiero", "contigo", "tan ", "para ", "como "];
-
   if (hindiScript.test(title + description)) return "hindi";
   if (hindiWords.some(w => text.includes(w))) return "hindi";
   if (spanishWords.some(w => text.includes(w))) return "spanish";
   return "english";
+}
+
+// Parse ISO 8601 duration to seconds
+function parseDuration(iso) {
+  if (!iso) return 999;
+  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!match) return 999;
+  const h = parseInt(match[1] || 0);
+  const m = parseInt(match[2] || 0);
+  const s = parseInt(match[3] || 0);
+  return h * 3600 + m * 60 + s;
 }
 
 function MusicNote({ style }) {
@@ -31,24 +41,36 @@ function MusicNote({ style }) {
   );
 }
 
-function SongCard({ video, index }) {
+function SongCard({ video, index, isShort }) {
   const [hovered, setHovered] = useState(false);
-  const youtubeUrl = `https://www.youtube.com/watch?v=${video.id}`;
+  const youtubeUrl = isShort
+    ? `https://www.youtube.com/shorts/${video.id}`
+    : `https://www.youtube.com/watch?v=${video.id}`;
+
   return (
-    <div className="song-card" style={{ animationDelay: `${index * 60}ms` }}
-      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+    <div
+      className={`song-card ${isShort ? "song-card--short" : ""}`}
+      style={{ animationDelay: `${index * 60}ms` }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <div className="thumbnail-wrap">
         <img src={video.thumbnail} alt={video.title} className="thumb-img" />
         <div className={`play-overlay ${hovered ? "visible" : ""}`}>
           <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="play-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36"><path d="M8 5v14l11-7z" /></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36">
+              <path d="M8 5v14l11-7z" />
+            </svg>
           </a>
         </div>
         <span className="year-tag">{new Date(video.publishedAt).getFullYear()}</span>
+        {isShort && <span className="short-badge">SHORT</span>}
       </div>
       <div className="card-body">
         <h3 className="song-title">{video.title}</h3>
-        <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="watch-link">Watch on YouTube →</a>
+        <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="watch-link">
+          {isShort ? "Watch Short →" : "Watch on YouTube →"}
+        </a>
       </div>
     </div>
   );
@@ -67,9 +89,11 @@ function SubscribeButton() {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("all");
+  const [formatMode, setFormatMode] = useState("videos"); // "videos" | "shorts"
   const [aboutOpen, setAboutOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [videos, setVideos] = useState([]);
+  const [shorts, setShorts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -88,37 +112,75 @@ export default function App() {
       if (!channelData.items?.length) throw new Error("Channel not found");
       const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
 
-      let allVideos = [];
+      // Fetch all playlist items
+      let allItems = [];
       let nextPageToken = "";
       do {
         const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=50&key=${YOUTUBE_API_KEY}${nextPageToken ? `&pageToken=${nextPageToken}` : ""}`;
         const res = await fetch(url);
         const data = await res.json();
         if (data.items) {
-          const batch = data.items
-            .filter(item => item.snippet.title !== "Private video" && item.snippet.title !== "Deleted video")
-            .map(item => ({
-              id: item.snippet.resourceId.videoId,
-              title: item.snippet.title,
-              description: item.snippet.description,
-              thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url,
-              publishedAt: item.snippet.publishedAt,
-              language: detectLanguage(item.snippet.title, item.snippet.description),
-            }));
-          allVideos = [...allVideos, ...batch];
+          allItems = [...allItems, ...data.items.filter(
+            item => item.snippet.title !== "Private video" && item.snippet.title !== "Deleted video"
+          )];
         }
         nextPageToken = data.nextPageToken || "";
       } while (nextPageToken);
 
+      // Fetch durations in batches of 50
+      const videoIds = allItems.map(item => item.snippet.resourceId.videoId);
+      let durationMap = {};
+      for (let i = 0; i < videoIds.length; i += 50) {
+        const batch = videoIds.slice(i, i + 50).join(",");
+        const dRes = await fetch(
+          `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${batch}&key=${YOUTUBE_API_KEY}`
+        );
+        const dData = await dRes.json();
+        dData.items?.forEach(v => {
+          durationMap[v.id] = parseDuration(v.contentDetails.duration);
+        });
+      }
+
+      // Classify each video
+      const allVideos = [];
+      const allShorts = [];
+
+      allItems.forEach(item => {
+        const id = item.snippet.resourceId.videoId;
+        const duration = durationMap[id] || 999;
+        const isShort = duration <= 60;
+        const video = {
+          id,
+          title: item.snippet.title,
+          description: item.snippet.description,
+          thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url,
+          publishedAt: item.snippet.publishedAt,
+          language: detectLanguage(item.snippet.title, item.snippet.description),
+          duration,
+        };
+        if (isShort) allShorts.push(video);
+        else allVideos.push(video);
+      });
+
       setVideos(allVideos);
+      setShorts(allShorts);
     } catch (err) {
+      console.error(err);
       setError("Could not load videos. Please try again later.");
     } finally {
       setLoading(false);
     }
   }
 
-  const filteredVideos = activeTab === "all" ? videos : videos.filter(v => v.language === activeTab);
+  const currentPool = formatMode === "shorts" ? shorts : videos;
+  const filteredVideos = activeTab === "all"
+    ? currentPool
+    : currentPool.filter(v => v.language === activeTab);
+
+  const countFor = (tab, mode) => {
+    const pool = mode === "shorts" ? shorts : videos;
+    return tab === "all" ? pool.length : pool.filter(v => v.language === tab).length;
+  };
 
   return (
     <div className={`site ${loaded ? "loaded" : ""}`}>
@@ -158,28 +220,78 @@ export default function App() {
           <span className="hero-line-2">Borders</span>
         </h1>
         <p className="hero-sub">All original music. No covers, no remixes. Pure creative expression in Hindi, English, and Spanish — composed from the ground up.</p>
-        {!loading && <p className="video-count">{videos.length} Original Songs</p>}
+        {!loading && (
+          <p className="video-count">{videos.length} Songs · {shorts.length} Shorts</p>
+        )}
       </section>
 
+      {/* Tabs + Toggle */}
       <div className="tabs-bar">
-        <div className="tabs-inner">
-          {TABS.map((tab) => (
-            <button key={tab.key} className={`tab-btn ${activeTab === tab.key ? "active" : ""}`} onClick={() => setActiveTab(tab.key)}>
-              <span className="tab-primary">{tab.label}</span>
-              {tab.sublabel && <span className="tab-secondary">{tab.sublabel}</span>}
-              {!loading && <span className="tab-count">{tab.key === "all" ? videos.length : videos.filter(v => v.language === tab.key).length}</span>}
+        <div className="tabs-row">
+          <div className="tabs-inner">
+            {TABS.map((tab) => (
+              <button
+                key={tab.key}
+                className={`tab-btn ${activeTab === tab.key ? "active" : ""}`}
+                onClick={() => setActiveTab(tab.key)}
+              >
+                <span className="tab-primary">{tab.label}</span>
+                {tab.sublabel && <span className="tab-secondary">{tab.sublabel}</span>}
+                {!loading && (
+                  <span className="tab-count">{countFor(tab.key, formatMode)}</span>
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Format Toggle */}
+          <div className="format-toggle">
+            <button
+              className={`toggle-btn ${formatMode === "videos" ? "active" : ""}`}
+              onClick={() => setFormatMode("videos")}
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+              </svg>
+              Videos
             </button>
-          ))}
+            <button
+              className={`toggle-btn ${formatMode === "shorts" ? "active" : ""}`}
+              onClick={() => setFormatMode("shorts")}
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+              </svg>
+              Shorts
+            </button>
+          </div>
         </div>
       </div>
 
       <main className="song-grid-wrap">
-        {loading && <div className="loading-state"><div className="spinner" /><p>Loading your music catalog…</p></div>}
-        {error && <div className="empty-state"><MusicNote style={{ width: 48, height: 48 }} /><p>{error}</p></div>}
+        {loading && (
+          <div className="loading-state">
+            <div className="spinner" />
+            <p>Loading your music catalog…</p>
+          </div>
+        )}
+        {error && (
+          <div className="empty-state">
+            <MusicNote style={{ width: 48, height: 48 }} />
+            <p>{error}</p>
+          </div>
+        )}
         {!loading && !error && (
-          <div className="song-grid" key={activeTab}>
-            {filteredVideos.map((video, i) => <SongCard key={video.id} video={video} index={i} />)}
-            {filteredVideos.length === 0 && <div className="empty-state"><MusicNote style={{ width: 64, height: 64 }} /><p>No songs in this category yet.</p></div>}
+          <div className={`song-grid ${formatMode === "shorts" ? "song-grid--shorts" : ""}`} key={`${activeTab}-${formatMode}`}>
+            {filteredVideos.map((video, i) => (
+              <SongCard key={video.id} video={video} index={i} isShort={formatMode === "shorts"} />
+            ))}
+            {filteredVideos.length === 0 && (
+              <div className="empty-state">
+                <MusicNote style={{ width: 64, height: 64 }} />
+                <p>No {formatMode === "shorts" ? "Shorts" : "songs"} in this category yet.</p>
+              </div>
+            )}
           </div>
         )}
       </main>
