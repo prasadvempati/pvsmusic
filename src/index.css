@@ -377,3 +377,36 @@ button { border: none; background: none; cursor: pointer; font: inherit; color: 
   .about-content { flex-direction: column; gap: 16px; padding: 16px; }
   .footer-inner { flex-direction: column; text-align: center; }
 }
+
+/* ─── Format Toggle ─── */
+.tabs-row {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.tabs-inner { display: flex; gap: 0; flex: 1; }
+.format-toggle {
+  display: flex; align-items: center;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 999px; padding: 3px;
+  gap: 2px; flex-shrink: 0;
+}
+.toggle-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 999px;
+  font-size: 0.78rem; font-weight: 500;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+.toggle-btn.active { background: var(--gold); color: #0a0a0c; }
+.toggle-btn:not(.active):hover { color: var(--text); }
+.song-grid--shorts { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.song-card--short .thumbnail-wrap { aspect-ratio: 9/16; }
+.short-badge {
+  position: absolute; bottom: 10px; left: 10px;
+  background: var(--gold); color: #0a0a0c;
+  font-size: 0.65rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 999px;
+  letter-spacing: 0.08em;
+}
