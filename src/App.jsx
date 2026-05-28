@@ -22,6 +22,36 @@ function detectLanguage(title, description = "") {
   return "english";
 }
 
+function injectSongCatalogSchema(videos) {
+  const existing = document.getElementById("schema-song-catalog");
+  if (existing) existing.remove();
+  if (!videos || videos.length === 0) return;
+  const itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "PVS Music – Full Song Catalog",
+    "description": "All original songs by PVS Music in Hindi, English, and Spanish",
+    "numberOfItems": videos.length,
+    "itemListElement": videos.map((video, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "MusicRecording",
+        "name": video.title,
+        "byArtist": { "@type": "MusicGroup", "name": "PVS Music" },
+        "url": `https://www.youtube.com/watch?v=${video.id}`,
+        "datePublished": new Date(video.publishedAt).getFullYear().toString(),
+        "inLanguage": video.language === "hindi" ? "hi" : video.language === "spanish" ? "es" : "en"
+      }
+    }))
+  };
+  const script = document.createElement("script");
+  script.id = "schema-song-catalog";
+  script.type = "application/ld+json";
+  script.textContent = JSON.stringify(itemList);
+  document.head.appendChild(script);
+}
+
 function MusicNote({ style }) {
   return (
     <svg style={style} viewBox="0 0 24 24" fill="currentColor">
@@ -191,6 +221,7 @@ export default function App() {
 
       setVideos(allVideos);
       setShorts(allShorts);
+      injectSongCatalogSchema([...allVideos, ...allShorts]);
     } catch (err) {
       console.error(err);
       setError("Could not load videos. Please try again later.");
