@@ -1,76 +1,114 @@
-// PVS Music Song Catalog
-// To add a new song: copy one object, fill in the details, add to the correct language array.
-// youtubeId: the part after "watch?v=" in the YouTube URL
-// e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ → youtubeId: "dQw4w9WgXcQ"
+// PVS Music – Song Catalog
+// To add a new song: add an object to the correct language array.
+// To add Shorts: add objects to the `shorts` array below.
+// YouTube ID is the part after ?v= in the URL.
 
-export const songs = {
-  hindi: [
-    {
-      id: "h1",
-      title: "Dil Ki Baat",
-      description: "A soulful Bollywood ballad about unspoken emotions",
-      youtubeId: "YOUTUBE_ID_HERE",
-      year: 2024,
-    },
-    {
-      id: "h2",
-      title: "Raag Yaman",
-      description: "Classical Raaga-based composition in Raag Yaman",
-      youtubeId: "YOUTUBE_ID_HERE",
-      year: 2024,
-    },
-    {
-      id: "h3",
-      title: "Teri Yaadein",
-      description: "Melodic Hindi song with a cinematic feel",
-      youtubeId: "YOUTUBE_ID_HERE",
-      year: 2025,
-    },
-  ],
-  english: [
-    {
-      id: "e1",
-      title: "Echoes",
-      description: "An English original with lush production",
-      youtubeId: "YOUTUBE_ID_HERE",
-      year: 2024,
-    },
-    {
-      id: "e2",
-      title: "Midnight Rain",
-      description: "Atmospheric English ballad",
-      youtubeId: "YOUTUBE_ID_HERE",
-      year: 2025,
-    },
-  ],
-  spanish: [
-    {
-      id: "s1",
-      title: "Tan Perfecta",
-      description: "Un romántico original en español",
-      youtubeId: "YOUTUBE_ID_HERE",
-      year: 2024,
-    },
-    {
-      id: "s2",
-      title: "Siempre Vuelvo",
-      description: "Canción emotiva sobre el regreso al amor",
-      youtubeId: "YOUTUBE_ID_HERE",
-      year: 2025,
-    },
-    {
-      id: "s3",
-      title: "Mar de Estrellas",
-      description: "Una balada poética bajo el cielo nocturno",
-      youtubeId: "YOUTUBE_ID_HERE",
-      year: 2025,
-    },
-  ],
-};
+const hindi = [
+  { id: "vBvEB8z5zb8", title: "समां नया" },
+  { id: "kewSQmJB4QA", title: "शफ़क़ का नशा" },
+  { id: "FMrbhNJq5BU", title: "क्यों परेशान करती हो" },
+  { id: "6umjZzBpO_k", title: "एक अनकही सी कथा" },
+  { id: "luCHZ0kFKQo", title: "रंग तेरा" },
+  { id: "QWTIc1iVBMg", title: "झनक झनक पायलिया" },
+  { id: "jwBzeVrSxQA", title: "तू ही मेरी आदत" },
+  { id: "6qqtx0AHLhk", title: "तेरे संग बहारें" },
+  { id: "My_1qLF14B0", title: "तेरी आँखों का राज़" },
+  { id: "qIIUpksQq30", title: "तेरे संग बंधी" },
+  { id: "i6T7xkorXD0", title: "अब मैं चलूँ" },
+  { id: "as1QFibgV5I", title: "राहें तेरी ओर" },
+  { id: "ScjCHPQegLU", title: "ये रात सुहानी" },
+  { id: "P1IqfUBPeuY", title: "मुझ पे असर" },
+  { id: "khHupw3lDoE", title: "तेरे संग बहने लगा हूँ" },
+  { id: "RrnrMxW5cvg", title: "तुमसे जुड़ा हर लम्हा" },
+  { id: "8E1SMt8w9xQ", title: "बेआवाज़ रातें" },
+  { id: "wfh4IDvGlKQ", title: "तेरे लम्हों में रहूँ" },
+  { id: "WFAdkrh0BGQ", title: "मेरा होश सब बिखर गया" },
+  { id: "tCvPZJABlF8", title: "दिल में तेरे साये" },
+  { id: "QN6zmhrUAw8", title: "तुमसे मिला जो प्यार है" },
+  { id: "gRyx6Sg-_Lw", title: "तेरी आँखों का असर" },
+  { id: "bM1T980QRfE", title: "चल ना संग मेरे" },
+  { id: "4D4ZFXtcDW0", title: "तेरे बिना जीना पाये" },
+  { id: "_Y2tcBanRnQ", title: "तेरी यादों का मौसम" },
+  { id: "vhbJ12NIjZo", title: "तेरे नूर से" },
+];
 
-export const channelInfo = {
-  youtubeChannelUrl: "https://www.youtube.com/@PVSMusic",
-  instagramUrl: "https://www.instagram.com/PVSMusic",
-  aboutText:
-    "All original music. No covers, no remixes. Pure creative expression in Hindi, English, and Spanish — composed from the ground up."
-};
+const english = [
+  { id: "VtR63BBee44", title: "When You Look at Me" },
+  { id: "yEpkeDYueSU", title: "I Still Feel You" },
+  { id: "Upb2xF1P2t0", title: "I'll Keep You in My Heart" },
+  { id: "R8gpBX1_OuY", title: "Beautiful Damage" },
+  { id: "xAHc-VMu4iM", title: "Can't Stay Away" },
+  { id: "mEVymPM26MY", title: "Fire in the Breeze" },
+  { id: "fniGSoKwnuU", title: "Let Me Fall" },
+  { id: "h9d-n5o3Jk0", title: "What You Do To Me" },
+  { id: "I01RQdHgDf0", title: "All I'm Asking For" },
+  { id: "sd6vwpm6-88", title: "Forever Starts and Ends With You" },
+  { id: "YgPAAaCfD6Q", title: "In Every Quiet Moment" },
+  { id: "6c32trWqH1o", title: "Silent Without You" },
+  { id: "KUnjaciJ-E8", title: "Whispers in Slow Motion" },
+  { id: "4ulCo1HuDCM", title: "Only Yours" },
+  { id: "vKdGVBhquCg", title: "When You Pass By" },
+  { id: "v3xUWPQ_8cM", title: "Someday With You" },
+  { id: "MosL1Bd1NZk", title: "Don't Walk Away" },
+  { id: "Q3cYsJnitDw", title: "You're a Part of Me" },
+  { id: "xLKdrvDkBRw", title: "Somebody Like You" },
+  { id: "zhX1HxU8FhY", title: "You Already Know" },
+  { id: "cDDqxlLnZ68", title: "Even in Silence, You're on My Mind" },
+  { id: "tsxjuC02t5g", title: "I Am Falling Into You" },
+  { id: "jUhphNopIEQ", title: "Endless Nights" },
+  { id: "qRBAkVpF_3w", title: "Gravity in Your Eyes" },
+  { id: "jK8PQ3zjELE", title: "One Look I'm Gone" },
+  { id: "P1l8ijvtGVE", title: "Right Where You Are" },
+  { id: "1IY8USZN7do", title: "Oh My Love" },
+  { id: "rQMtZRSBel0", title: "Heart to Heart" },
+  { id: "AoN-CyFbIOM", title: "Took Me By Surprise" },
+  { id: "84UuFvbMTQY", title: "You Stole My Heart" },
+  { id: "ZhQzFtm0uLg", title: "The Moment Won't Stop" },
+  { id: "cMfBk5V3MpI", title: "If Only You Knew" },
+  { id: "HCu6CJs30Xw", title: "One Heart to Hold" },
+  { id: "EiJyWR9AixE", title: "When Love Just Finds You" },
+  { id: "F8_0TwwM7io", title: "Left Waiting" },
+  { id: "mYPtFENv-iM", title: "Just One Smile" },
+  { id: "sRiKZMCmwFY", title: "You Didn't Say It" },
+  { id: "GOV0qceI-j0", title: "You're Always Near" },
+  { id: "hg1ypC7Vf8k", title: "No One Like You" },
+  { id: "oa_-UF2STqQ", title: "Chasing You Through the Wind" },
+  { id: "KN45EA3raYE", title: "She Was My First Prayer" },
+  { id: "17gBdSo1bdQ", title: "Whispers and Echoes" },
+  { id: "YhJx-JUKrgQ", title: "Hearts That Found Each Other" },
+  { id: "Nw7ofwigQuc", title: "You Are My Everything" },
+];
+
+const spanish = [
+  { id: "QajtdMlZSyw", title: "Me enamoré sin permiso" },
+  { id: "H8B1W7MrG44", title: "No Eres Mío" },
+  { id: "NK_V1ZROi0E", title: "Cuando Me Miras Así" },
+  { id: "svGIjYeJa8w", title: "Vuelve, Regresa" },
+  { id: "oACsT36UExc", title: "Tan Perfecta" },
+  { id: "1m9JqeoRSVo", title: "Se Me Pega Tu Ritmo" },
+  { id: "9VhcnWK2ZNY", title: "Dime por qué" },
+  { id: "tyMDZ_-rd1Y", title: "Sin Ser Mío" },
+  { id: "Fqiy1TSr76E", title: "Almas Sin Final" },
+  { id: "TI1QJ13cSXA", title: "Cuando Me Miras Así (Version 2)" },
+  { id: "UhEEnqrdkH8", title: "Donde Sopla Tu Destino" },
+  { id: "JRD5wPW3VeI", title: "Cada Momento Contigo" },
+  { id: "myJ84zuVYHs", title: "Regresar a Tu Amor" },
+  { id: "TEvKUR2O37w", title: "Llévate Mi Corazón" },
+  { id: "13aLA7TkCHY", title: "Cuando Calla la Tarde" },
+  { id: "3lJsOJ792BM", title: "Me Llama Tu Amor" },
+  { id: "zplOGscvQoY", title: "Alguien Como Tú" },
+  { id: "WCtHD5B4epc", title: "Sólo Tuya" },
+  { id: "kHGnTmO8-eg", title: "Donde Tú Estás" },
+  { id: "my-B9InFe_s", title: "Ahí Donde Estás" },
+  { id: "LBVDfFnjxkY", title: "Persiguiéndote en el Viento" },
+  { id: "UPl39p0DhJA", title: "Como la Luz al Amanecer" },
+  { id: "XAphhf6rYs0", title: "Donde No Llega el Mundo" },
+];
+
+// Shorts — add YouTube Short IDs here when identified
+// Example: { id: "SHORT_ID_HERE", title: "Song Title", language: "hi" }
+const shorts = [];
+
+const songs = { hindi, english, spanish, shorts };
+
+export default songs;
