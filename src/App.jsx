@@ -3,6 +3,7 @@ import { channelInfo } from "./songs";
 
 const YOUTUBE_API_KEY = "AIzaSyAKqCFsfA2Fm_X2dQ11qJEwlnOg9OKH34I";
 const CHANNEL_HANDLE = "pvs4001";
+const FETCH_OPTS = { referrerPolicy: "no-referrer-when-downgrade" };
 
 const TABS = [
   { key: "all",     label: "All" },
@@ -11,28 +12,16 @@ const TABS = [
   { key: "spanish", label: "Español", sublabel: "Spanish" },
 ];
 
-// ---------------------------------------------------------------------------
-// detectLanguage — tested 100% accurate against all 93 PVS Music song titles.
-// Priority:
-//   0. Explicit #Hindi / #Spanish / #English hashtag in description (optional)
-//   1. Devanagari script in title  → hindi
-//   2. Spanish-specific phrases    → spanish
-//   3. Hindi transliteration words → hindi
-//   4. Default                     → english
-// ---------------------------------------------------------------------------
 function detectLanguage(title, description = "") {
   const combined = title + " " + description;
   const lower    = combined.toLowerCase();
 
-  // 0. Optional explicit hashtags
   if (/#hindi\b/i.test(combined))                          return "hindi";
   if (/#spanish\b|#español\b|#espanol\b/i.test(combined)) return "spanish";
   if (/#english\b/i.test(combined))                        return "english";
 
-  // 1. Devanagari script in title
   if (/[\u0900-\u097F]/.test(title)) return "hindi";
 
-  // 2. Spanish phrases
   const spanishMarkers = [
     "enamoré","enamore","amor ","corazón","corazon","siempre","vuelvo",
     "estrellas","quiero","contigo","también","tambien","cuando ","donde ",
@@ -46,7 +35,6 @@ function detectLanguage(title, description = "") {
   ];
   if (spanishMarkers.some(w => lower.includes(w))) return "spanish";
 
-  // 3. Hindi transliteration
   const hindiMarkers = [
     "teri ","tere ","meri ","mere ","dil ","pyar","mohabbat","ishq",
     "zindagi","yaad","raat ","aaj ","raag ","raaga","nasha","aadat",
@@ -63,23 +51,14 @@ function detectLanguage(title, description = "") {
   return "english";
 }
 
-// ---------------------------------------------------------------------------
-// isShortVideo — ONLY uses explicit #Shorts tag / title signal.
-// Duration-based detection (<=180s) is intentionally removed because many
-// PVS Music songs are under 3 minutes and were being misclassified as Shorts.
-// ---------------------------------------------------------------------------
-function isShortVideo(snippet, contentDetails) {
+function isShortVideo(snippet) {
   const title = (snippet.title       || "").toLowerCase();
   const desc  = (snippet.description || "").toLowerCase();
   const tags  = (snippet.tags        || []).join(" ").toLowerCase();
-
   return (
-    title.includes("#shorts") ||
-    title.includes("#short")  ||
-    desc.includes("#shorts")  ||
-    desc.includes("#short")   ||
-    tags.includes("#shorts")  ||
-    tags.includes("#short")
+    title.includes("#shorts") || title.includes("#short") ||
+    desc.includes("#shorts")  || desc.includes("#short")  ||
+    tags.includes("#shorts")  || tags.includes("#short")
   );
 }
 
@@ -188,70 +167,77 @@ export default function App() {
     try {
       setLoading(true);
 
-      // 1. Resolve uploads playlist ID
+      // ── Step 1: Get uploads playlist ID ──────────────────────────────────
       const channelRes  = await fetch(
-        `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle=${CHANNEL_HANDLE}&key=${YOUTUBE_API_KEY}`
+        `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle=${CHANNEL_HANDLE}&key=${YOUTUBE_API_KEY}`,
+        FETCH_OPTS
       );
       const channelData = await channelRes.json();
       if (!channelData.items?.length) throw new Error("Channel not found");
       const uploadsPlaylistId =
         channelData.items[0].contentDetails.relatedPlaylists.uploads;
 
-      // 2. Page through ALL playlist items
-      let allItems = [];
-      let nextPageToken = "";
-      do {
+      // ── Step 2: Collect ALL playlist items sequentially ──────────────────
+      // Plain while(true) — each page is fully awaited before reading the
+      // next page token. No race condition possible.
+      const allItems = [];
+      let pageToken  = "";
+
+      while (true) {
         const url =
           `https://www.googleapis.com/youtube/v3/playlistItems` +
           `?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=50&key=${YOUTUBE_API_KEY}` +
-          (nextPageToken ? `&pageToken=${nextPageToken}` : "");
-        const res  = await fetch(url);
-        const data = await res.json();
-        if (data.items) {
-          allItems = [
-            ...allItems,
-            ...data.items.filter(
-              item =>
-                item.snippet.title !== "Private video" &&
-                item.snippet.title !== "Deleted video"
-            ),
-          ];
-        }
-        nextPageToken = data.nextPageToken || "";
-      } while (nextPageToken);
+          (pageToken ? `&pageToken=${pageToken}` : "");
 
-      // 3. Fetch full video details in batches of 50
-      //    Needed for: tags, full description, contentDetails (for #Shorts check)
-      const videoIds  = allItems.map(item => item.snippet.resourceId.videoId);
+        const res  = await fetch(url, FETCH_OPTS);
+        const data = await res.json();
+        if (data.error) throw new Error(data.error.message);
+
+        (data.items || []).forEach(item => {
+          const t = item.snippet.title;
+          if (t !== "Private video" && t !== "Deleted video") {
+            allItems.push(item);
+          }
+        });
+
+        if (!data.nextPageToken) break;   // no more pages — stop
+        pageToken = data.nextPageToken;
+      }
+
+      // ── Step 3: Fetch video details in strict sequential batches ─────────
+      // Each batch of 50 fully resolves before the next starts.
+      const videoIds   = allItems.map(item => item.snippet.resourceId.videoId);
       const detailsMap = {};
+
       for (let i = 0; i < videoIds.length; i += 50) {
         const batch = videoIds.slice(i, i + 50).join(",");
         const dRes  = await fetch(
-          `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${batch}&key=${YOUTUBE_API_KEY}`
+          `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${batch}&key=${YOUTUBE_API_KEY}`,
+          FETCH_OPTS
         );
         const dData = await dRes.json();
-        dData.items?.forEach(v => {
+        if (dData.error) throw new Error(dData.error.message);
+
+        (dData.items || []).forEach(v => {
           detailsMap[v.id] = {
-            // Short = ONLY explicit #Shorts tag — no duration guessing
-            isShort:         isShortVideo(v.snippet, v.contentDetails),
+            isShort:         isShortVideo(v.snippet),
             fullDescription: v.snippet.description || "",
-            tags:            v.snippet.tags         || [],
           };
         });
       }
 
-      // 4. Split into videos vs shorts, detect language for each
+      // ── Step 4: Build final arrays and update state ONCE ─────────────────
       const allVideos = [];
       const allShorts = [];
 
       allItems.forEach(item => {
         const id      = item.snippet.resourceId.videoId;
-        const details = detailsMap[id] || { isShort: false, fullDescription: "", tags: [] };
+        const details = detailsMap[id] || { isShort: false, fullDescription: "" };
 
         const video = {
           id,
           title:       item.snippet.title,
-          description: details.fullDescription || item.snippet.description || "",
+          description: details.fullDescription,
           thumbnail:
             item.snippet.thumbnails?.high?.url ||
             item.snippet.thumbnails?.medium?.url,
@@ -263,19 +249,20 @@ export default function App() {
         else                  allVideos.push(video);
       });
 
+      // Single state update at the very end — no intermediate renders,
+      // no flickering counts, consistent every refresh.
       setVideos(allVideos);
       setShorts(allShorts);
       injectSongCatalogSchema([...allVideos, ...allShorts]);
+
     } catch (err) {
-      console.error(err);
+      console.error("fetchAllVideos error:", err);
       setError("Could not load videos. Please try again later.");
     } finally {
       setLoading(false);
     }
   }
 
-  // Counts are 100% dynamic — zero hardcoded numbers anywhere.
-  // Upload a new song to YouTube → counts update automatically on next page load.
   const currentPool    = formatMode === "shorts" ? shorts : videos;
   const filteredVideos = activeTab === "all"
     ? currentPool
