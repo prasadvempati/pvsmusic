@@ -1,5 +1,6 @@
 import { useState } from "react";
 import songs from "./songs";
+import Admin from "./Admin";
 
 const TABS = [
   { key: "all",     label: "All" },
@@ -54,7 +55,7 @@ function SongCard({ id, title, isShort }) {
   );
 }
 
-export default function App() {
+function MainSite() {
   const [activeTab,  setActiveTab]  = useState("all");
   const [showShorts, setShowShorts] = useState(false);
 
@@ -63,7 +64,6 @@ export default function App() {
   return (
     <div className="site loaded">
 
-      {/* ── Ambient background ── */}
       <div className="ambient-bg">
         <div className="orb orb-1" />
         <div className="orb orb-2" />
@@ -71,7 +71,6 @@ export default function App() {
         <div className="grain" />
       </div>
 
-      {/* ── Header ── */}
       <header className="site-header">
         <div className="header-inner">
           <div className="brand">
@@ -101,7 +100,6 @@ export default function App() {
         </div>
       </header>
 
-      {/* ── Hero ── */}
       <section className="hero">
         <h1 className="hero-title">
           <span className="hero-line-1">Original Music</span>
@@ -113,10 +111,8 @@ export default function App() {
         </p>
       </section>
 
-      {/* ── Tabs bar with Videos/Shorts toggle ── */}
       <div className="tabs-bar">
         <div className="tabs-row">
-          {/* Language tabs — hidden in Shorts mode */}
           <div className="tabs-inner">
             {!showShorts && TABS.map(({ key, label }) => (
               <button
@@ -129,8 +125,6 @@ export default function App() {
               </button>
             ))}
           </div>
-
-          {/* Videos / Shorts toggle */}
           <div className="format-toggle">
             <button
               className={`toggle-btn${!showShorts ? " active" : ""}`}
@@ -154,7 +148,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* ── Song Grid ── */}
       <main className="song-grid-wrap">
         <div className={`song-grid${showShorts ? " song-grid--shorts" : ""}`}>
           {displaySongs.length === 0 ? (
@@ -181,7 +174,6 @@ export default function App() {
         </div>
       </main>
 
-      {/* ── Footer ── */}
       <footer className="site-footer">
         <div className="footer-inner">
           <span>© {new Date().getFullYear()} PVS Music — All songs original</span>
@@ -197,4 +189,10 @@ export default function App() {
 
     </div>
   );
+}
+
+// Simple client-side router — no react-router needed
+export default function App() {
+  const isAdmin = window.location.pathname === "/admin";
+  return isAdmin ? <Admin /> : <MainSite />;
 }
