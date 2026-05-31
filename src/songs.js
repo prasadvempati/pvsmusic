@@ -1,6 +1,5 @@
 // PVS Music – Song Catalog
-// To add a new song: add an object to the correct language array.
-// To add Shorts: add objects to the `shorts` array below.
+// To add a new song: use the Admin page at /admin
 // YouTube ID is the part after ?v= in the URL.
 
 const hindi = [
@@ -105,9 +104,10 @@ const spanish = [
   { id: "XAphhf6rYs0", title: "Donde No Llega el Mundo" },
 ];
 
-// Shorts — add YouTube Short IDs here when identified
-// Example: { id: "SHORT_ID_HERE", title: "Song Title", language: "hi" }
-const shorts = [];
+// Shorts — vertical videos ≤60 seconds
+const shorts = [
+  { id: "PS27C7aSlro", title: "Cuando Mi Alma Te Nombra", language: "spanish" },
+];
 
 const songs = { hindi, english, spanish, shorts };
 
