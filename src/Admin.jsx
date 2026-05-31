@@ -29,7 +29,7 @@ function buildSongsFile(current, newSong) {
   const shorts  = [...current.shorts];
 
   if (newSong.type === "short") {
-    shorts.unshift({ id: newSong.id, title: newSong.title });
+    shorts.unshift({ id: newSong.id, title: newSong.title, language: newSong.language });
   } else if (newSong.language === "hindi") {
     hindi.unshift({ id: newSong.id, title: newSong.title });
   } else if (newSong.language === "english") {
@@ -38,8 +38,12 @@ function buildSongsFile(current, newSong) {
     spanish.unshift({ id: newSong.id, title: newSong.title });
   }
 
-  const fmt = (arr) =>
-    arr.map((s) => `  { id: "${s.id}", title: "${s.title.replace(/"/g, '\\"')}" },`).join("\n");
+  const fmt = (arr, includeLanguage = false) =>
+    arr.map((s) =>
+      includeLanguage && s.language
+        ? `  { id: "${s.id}", title: "${s.title.replace(/"/g, '\\"')}", language: "${s.language}" },`
+        : `  { id: "${s.id}", title: "${s.title.replace(/"/g, '\\"')}" },`
+    ).join("\n");
 
   return `// PVS Music – Song Catalog
 // To add a new song: use the Admin page at /admin
@@ -59,7 +63,7 @@ ${fmt(spanish)}
 
 // Shorts — vertical videos ≤60 seconds
 const shorts = [
-${fmt(shorts)}
+${fmt(shorts, true)}
 ];
 
 const songs = { hindi, english, spanish, shorts };
@@ -288,24 +292,20 @@ export default function Admin() {
               ))}
             </div>
 
-            {/* Language — only for videos */}
-            {type === "video" && (
-              <>
-                <label style={s.label}>Language</label>
-                <div style={s.toggleRow}>
-                  {["hindi", "english", "spanish"].map((l) => (
-                    <button
-                      key={l}
-                      type="button"
-                      onClick={() => setLanguage(l)}
-                      style={language === l ? s.toggleActive : s.toggleInactive}
-                    >
-                      {l === "hindi" ? "🇮🇳 Hindi" : l === "english" ? "🇺🇸 English" : "🇪🇸 Spanish"}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
+            {/* Language — always shown */}
+            <label style={s.label}>Language</label>
+            <div style={s.toggleRow}>
+              {["hindi", "english", "spanish"].map((l) => (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => setLanguage(l)}
+                  style={language === l ? s.toggleActive : s.toggleInactive}
+                >
+                  {l === "hindi" ? "🇮🇳 Hindi" : l === "english" ? "🇺🇸 English" : "🇪🇸 Spanish"}
+                </button>
+              ))}
+            </div>
 
             {/* Submit */}
             <button
