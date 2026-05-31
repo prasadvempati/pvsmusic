@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { channelInfo } from "./songs";
 
 const YOUTUBE_API_KEY = "AIzaSyAKqCFsfA2Fm_X2dQ11qJEwlnOg9OKH34I";
@@ -158,9 +158,15 @@ export default function App() {
   const [loading,    setLoading]    = useState(true);
   const [error,      setError]      = useState(null);
 
+  // Prevents fetchAllVideos running twice in React 18 Strict Mode
+  const hasFetched = useRef(false);
+
   useEffect(() => {
     setTimeout(() => setLoaded(true), 100);
-    fetchAllVideos();
+    if (!hasFetched.current) {
+      hasFetched.current = true;
+      fetchAllVideos();
+    }
   }, []);
 
   async function fetchAllVideos() {
@@ -177,7 +183,7 @@ export default function App() {
       const uploadsPlaylistId =
         channelData.items[0].contentDetails.relatedPlaylists.uploads;
 
-      // ── Step 2: Collect ALL playlist items sequentially ──────────────────
+      // ── Step 2: Collect ALL playlist items one page at a time ─────────────
       const rawItems = [];
       let pageToken  = "";
 
@@ -203,8 +209,6 @@ export default function App() {
       }
 
       // ── Step 3: Deduplicate by video ID ───────────────────────────────────
-      // YouTube's playlist API can occasionally return the same video on
-      // multiple pages. This removes any duplicates before counting.
       const seen     = new Set();
       const allItems = rawItems.filter(item => {
         const id = item.snippet.resourceId.videoId;
@@ -213,7 +217,7 @@ export default function App() {
         return true;
       });
 
-      // ── Step 4: Fetch video details in strict sequential batches ─────────
+      // ── Step 4: Fetch video details in sequential batches of 50 ──────────
       const videoIds   = allItems.map(item => item.snippet.resourceId.videoId);
       const detailsMap = {};
 
@@ -234,7 +238,7 @@ export default function App() {
         });
       }
 
-      // ── Step 5: Build final arrays and update state ONCE ─────────────────
+      // ── Step 5: Build final arrays, update state exactly once ─────────────
       const allVideos = [];
       const allShorts = [];
 
@@ -257,7 +261,6 @@ export default function App() {
         else                  allVideos.push(video);
       });
 
-      // Single state update — consistent every refresh, no flickering
       setVideos(allVideos);
       setShorts(allShorts);
       injectSongCatalogSchema([...allVideos, ...allShorts]);
