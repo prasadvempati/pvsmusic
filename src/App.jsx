@@ -12,31 +12,27 @@ const TABS = [
 ];
 
 // ---------------------------------------------------------------------------
-// detectLanguage — tested against all 93 existing PVS Music songs (100% acc.)
-// No hashtags needed. Works automatically from title + description alone.
-//
-// Priority order:
-//   1. Devanagari script in title (समां, शफ़क़, झनक, etc.)         → hindi
-//   2. Spanish-specific words/phrases that never appear in English → spanish
-//   3. Hindi transliteration keywords (tere, teri, dil, etc.)     → hindi
-//   4. Default                                                     → english
-//
-// OPTIONAL future improvement: add #Hindi / #Spanish / #English to your
-// YouTube descriptions and this function will honour them as Priority 0.
+// detectLanguage — tested 100% accurate against all 93 PVS Music song titles.
+// Priority:
+//   0. Explicit #Hindi / #Spanish / #English hashtag in description (optional)
+//   1. Devanagari script in title  → hindi
+//   2. Spanish-specific phrases    → spanish
+//   3. Hindi transliteration words → hindi
+//   4. Default                     → english
 // ---------------------------------------------------------------------------
 function detectLanguage(title, description = "") {
   const combined = title + " " + description;
   const lower    = combined.toLowerCase();
 
-  // 0. Optional explicit hashtags — takes priority if you ever add them
-  if (/#hindi\b/i.test(combined))                        return "hindi";
+  // 0. Optional explicit hashtags
+  if (/#hindi\b/i.test(combined))                          return "hindi";
   if (/#spanish\b|#español\b|#espanol\b/i.test(combined)) return "spanish";
-  if (/#english\b/i.test(combined))                      return "english";
+  if (/#english\b/i.test(combined))                        return "english";
 
-  // 1. Devanagari script in the title — catches all Hindi-script titles
+  // 1. Devanagari script in title
   if (/[\u0900-\u097F]/.test(title)) return "hindi";
 
-  // 2. Spanish-specific words/phrases
+  // 2. Spanish phrases
   const spanishMarkers = [
     "enamoré","enamore","amor ","corazón","corazon","siempre","vuelvo",
     "estrellas","quiero","contigo","también","tambien","cuando ","donde ",
@@ -50,7 +46,7 @@ function detectLanguage(title, description = "") {
   ];
   if (spanishMarkers.some(w => lower.includes(w))) return "spanish";
 
-  // 3. Hindi transliteration keywords (romanised Hindi)
+  // 3. Hindi transliteration
   const hindiMarkers = [
     "teri ","tere ","meri ","mere ","dil ","pyar","mohabbat","ishq",
     "zindagi","yaad","raat ","aaj ","raag ","raaga","nasha","aadat",
@@ -64,8 +60,27 @@ function detectLanguage(title, description = "") {
   ];
   if (hindiMarkers.some(w => lower.includes(w))) return "hindi";
 
-  // 4. Default
   return "english";
+}
+
+// ---------------------------------------------------------------------------
+// isShortVideo — ONLY uses explicit #Shorts tag / title signal.
+// Duration-based detection (<=180s) is intentionally removed because many
+// PVS Music songs are under 3 minutes and were being misclassified as Shorts.
+// ---------------------------------------------------------------------------
+function isShortVideo(snippet, contentDetails) {
+  const title = (snippet.title       || "").toLowerCase();
+  const desc  = (snippet.description || "").toLowerCase();
+  const tags  = (snippet.tags        || []).join(" ").toLowerCase();
+
+  return (
+    title.includes("#shorts") ||
+    title.includes("#short")  ||
+    desc.includes("#shorts")  ||
+    desc.includes("#short")   ||
+    tags.includes("#shorts")  ||
+    tags.includes("#short")
+  );
 }
 
 function injectSongCatalogSchema(videos) {
@@ -88,7 +103,7 @@ function injectSongCatalogSchema(videos) {
         "url": `https://www.youtube.com/watch?v=${video.id}`,
         "datePublished": new Date(video.publishedAt).getFullYear().toString(),
         "inLanguage":
-          video.language === "hindi" ? "hi" :
+          video.language === "hindi"   ? "hi" :
           video.language === "spanish" ? "es" : "en",
       },
     })),
@@ -155,14 +170,14 @@ function SubscribeButton() {
 }
 
 export default function App() {
-  const [activeTab,   setActiveTab]   = useState("all");
-  const [formatMode,  setFormatMode]  = useState("videos");
-  const [aboutOpen,   setAboutOpen]   = useState(false);
-  const [loaded,      setLoaded]      = useState(false);
-  const [videos,      setVideos]      = useState([]);
-  const [shorts,      setShorts]      = useState([]);
-  const [loading,     setLoading]     = useState(true);
-  const [error,       setError]       = useState(null);
+  const [activeTab,  setActiveTab]  = useState("all");
+  const [formatMode, setFormatMode] = useState("videos");
+  const [aboutOpen,  setAboutOpen]  = useState(false);
+  const [loaded,     setLoaded]     = useState(false);
+  const [videos,     setVideos]     = useState([]);
+  const [shorts,     setShorts]     = useState([]);
+  const [loading,    setLoading]    = useState(true);
+  const [error,      setError]      = useState(null);
 
   useEffect(() => {
     setTimeout(() => setLoaded(true), 100);
@@ -173,8 +188,8 @@ export default function App() {
     try {
       setLoading(true);
 
-      // 1. Resolve uploads playlist ID from channel handle
-      const channelRes = await fetch(
+      // 1. Resolve uploads playlist ID
+      const channelRes  = await fetch(
         `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle=${CHANNEL_HANDLE}&key=${YOUTUBE_API_KEY}`
       );
       const channelData = await channelRes.json();
@@ -182,7 +197,7 @@ export default function App() {
       const uploadsPlaylistId =
         channelData.items[0].contentDetails.relatedPlaylists.uploads;
 
-      // 2. Page through ALL playlist items (50 per page)
+      // 2. Page through ALL playlist items
       let allItems = [];
       let nextPageToken = "";
       do {
@@ -206,8 +221,8 @@ export default function App() {
       } while (nextPageToken);
 
       // 3. Fetch full video details in batches of 50
-      //    (needed for duration → Short detection, and full description → better language detection)
-      const videoIds = allItems.map(item => item.snippet.resourceId.videoId);
+      //    Needed for: tags, full description, contentDetails (for #Shorts check)
+      const videoIds  = allItems.map(item => item.snippet.resourceId.videoId);
       const detailsMap = {};
       for (let i = 0; i < videoIds.length; i += 50) {
         const batch = videoIds.slice(i, i + 50).join(",");
@@ -216,39 +231,22 @@ export default function App() {
         );
         const dData = await dRes.json();
         dData.items?.forEach(v => {
-          const dur   = v.contentDetails.duration;
-          const match = dur.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-          let totalSecs = 999;
-          if (match) {
-            totalSecs =
-              parseInt(match[1] || 0) * 3600 +
-              parseInt(match[2] || 0) * 60  +
-              parseInt(match[3] || 0);
-          }
-          const tags  = (v.snippet.tags        || []).join(" ").toLowerCase();
-          const desc  = (v.snippet.description || "").toLowerCase();
-          const title = (v.snippet.title       || "").toLowerCase();
-          const hasShortTag =
-            tags.includes("short")    ||
-            desc.includes("#shorts")  ||
-            desc.includes("#short")   ||
-            title.includes("#shorts");
-
           detailsMap[v.id] = {
-            isShort:         hasShortTag || totalSecs <= 180,
+            // Short = ONLY explicit #Shorts tag — no duration guessing
+            isShort:         isShortVideo(v.snippet, v.contentDetails),
             fullDescription: v.snippet.description || "",
+            tags:            v.snippet.tags         || [],
           };
         });
       }
 
-      // 4. Build videos and shorts arrays
-      //    countFor() derives all tab counts from these arrays — zero hardcoded numbers.
+      // 4. Split into videos vs shorts, detect language for each
       const allVideos = [];
       const allShorts = [];
 
       allItems.forEach(item => {
         const id      = item.snippet.resourceId.videoId;
-        const details = detailsMap[id] || { isShort: false, fullDescription: "" };
+        const details = detailsMap[id] || { isShort: false, fullDescription: "", tags: [] };
 
         const video = {
           id,
@@ -276,10 +274,10 @@ export default function App() {
     }
   }
 
-  // All counts are 100% dynamic — derived live from the API data.
-  // Add a song to YouTube → counts update on next page load. Zero code changes needed.
-  const currentPool     = formatMode === "shorts" ? shorts : videos;
-  const filteredVideos  = activeTab === "all"
+  // Counts are 100% dynamic — zero hardcoded numbers anywhere.
+  // Upload a new song to YouTube → counts update automatically on next page load.
+  const currentPool    = formatMode === "shorts" ? shorts : videos;
+  const filteredVideos = activeTab === "all"
     ? currentPool
     : currentPool.filter(v => v.language === activeTab);
 
@@ -335,7 +333,11 @@ export default function App() {
         <div className="tabs-row">
           <div className="tabs-inner">
             {TABS.map(tab => (
-              <button key={tab.key} className={`tab-btn ${activeTab === tab.key ? "active" : ""}`} onClick={() => setActiveTab(tab.key)}>
+              <button
+                key={tab.key}
+                className={`tab-btn ${activeTab === tab.key ? "active" : ""}`}
+                onClick={() => setActiveTab(tab.key)}
+              >
                 <span className="tab-primary">{tab.label}</span>
                 {tab.sublabel && <span className="tab-secondary">{tab.sublabel}</span>}
                 {!loading && <span className="tab-count">{countFor(tab.key, formatMode)}</span>}
@@ -363,7 +365,10 @@ export default function App() {
           <div className="empty-state"><MusicNote style={{ width: 48, height: 48 }} /><p>{error}</p></div>
         )}
         {!loading && !error && (
-          <div className={`song-grid ${formatMode === "shorts" ? "song-grid--shorts" : ""}`} key={`${activeTab}-${formatMode}`}>
+          <div
+            className={`song-grid ${formatMode === "shorts" ? "song-grid--shorts" : ""}`}
+            key={`${activeTab}-${formatMode}`}
+          >
             {filteredVideos.map((video, i) => (
               <SongCard key={video.id} video={video} index={i} isShort={formatMode === "shorts"} />
             ))}
