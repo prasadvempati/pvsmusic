@@ -178,9 +178,7 @@ export default function App() {
         channelData.items[0].contentDetails.relatedPlaylists.uploads;
 
       // ── Step 2: Collect ALL playlist items sequentially ──────────────────
-      // Plain while(true) — each page is fully awaited before reading the
-      // next page token. No race condition possible.
-      const allItems = [];
+      const rawItems = [];
       let pageToken  = "";
 
       while (true) {
@@ -196,16 +194,26 @@ export default function App() {
         (data.items || []).forEach(item => {
           const t = item.snippet.title;
           if (t !== "Private video" && t !== "Deleted video") {
-            allItems.push(item);
+            rawItems.push(item);
           }
         });
 
-        if (!data.nextPageToken) break;   // no more pages — stop
+        if (!data.nextPageToken) break;
         pageToken = data.nextPageToken;
       }
 
-      // ── Step 3: Fetch video details in strict sequential batches ─────────
-      // Each batch of 50 fully resolves before the next starts.
+      // ── Step 3: Deduplicate by video ID ───────────────────────────────────
+      // YouTube's playlist API can occasionally return the same video on
+      // multiple pages. This removes any duplicates before counting.
+      const seen     = new Set();
+      const allItems = rawItems.filter(item => {
+        const id = item.snippet.resourceId.videoId;
+        if (seen.has(id)) return false;
+        seen.add(id);
+        return true;
+      });
+
+      // ── Step 4: Fetch video details in strict sequential batches ─────────
       const videoIds   = allItems.map(item => item.snippet.resourceId.videoId);
       const detailsMap = {};
 
@@ -226,7 +234,7 @@ export default function App() {
         });
       }
 
-      // ── Step 4: Build final arrays and update state ONCE ─────────────────
+      // ── Step 5: Build final arrays and update state ONCE ─────────────────
       const allVideos = [];
       const allShorts = [];
 
@@ -249,8 +257,7 @@ export default function App() {
         else                  allVideos.push(video);
       });
 
-      // Single state update at the very end — no intermediate renders,
-      // no flickering counts, consistent every refresh.
+      // Single state update — consistent every refresh, no flickering
       setVideos(allVideos);
       setShorts(allShorts);
       injectSongCatalogSchema([...allVideos, ...allShorts]);
