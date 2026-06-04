@@ -106,7 +106,8 @@ const spanish = [
 
 // Shorts — vertical videos ≤60 seconds
 const shorts = [
-  { id: "PS27C7aSlro", title: "Cuando Mi Alma Te Nombra", language: "spanish" },
+  { id: "zpVf_U8F0aQ", title: "शाम की परछाईं" },
+  { id: "PS27C7aSlro", title: "Cuando Mi Alma Te Nombra" },
 ];
 
 const songs = { hindi, english, spanish, shorts };
