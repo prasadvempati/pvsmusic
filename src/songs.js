@@ -106,6 +106,7 @@ const spanish = [
 
 // Shorts — vertical videos ≤60 seconds
 const shorts = [
+  { id: "qZ3_gkwzNjE", title: "Cuando Te Acercas" },
   { id: "AN18ic7QzMw", title: "Something Between Us" },
   { id: "CEx6R5HhLUM", title: "रात की रोशनी" },
   { id: "zpVf_U8F0aQ", title: "शाम की परछाईं" },
