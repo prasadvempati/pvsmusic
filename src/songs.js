@@ -108,6 +108,7 @@ const spanish = [
 
 // Shorts — vertical videos ≤60 seconds
 const shorts = [
+  { id: "xY6dSe-JLsQ", title: "चक्कर में" },
   { id: "i1KRDRgidGc", title: "Sombra de Tu Amor" },
   { id: "ekGpv9abgfo", title: "Before You Loved Me" },
   { id: "92dgyw4ufeE", title: "Where My Heart Begins" },
