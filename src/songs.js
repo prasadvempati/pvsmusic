@@ -82,6 +82,7 @@ const english = [
 ];
 
 const spanish = [
+  { id: "uRIyB0VHNv0", title: "Báilame el Silencio" },
   { id: "Ph_e2iTYwRg", title: "Latido Vivo" },
   { id: "QajtdMlZSyw", title: "Me enamoré sin permiso" },
   { id: "H8B1W7MrG44", title: "No Eres Mío" },
