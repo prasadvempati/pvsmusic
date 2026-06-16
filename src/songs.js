@@ -3,6 +3,7 @@
 // YouTube ID is the part after ?v= in the URL.
 
 const hindi = [
+  { id: "hicQZNqt8_4", title: "आप जो हमारे" },
   { id: "vBvEB8z5zb8", title: "समां नया" },
   { id: "kewSQmJB4QA", title: "शफ़क़ का नशा" },
   { id: "FMrbhNJq5BU", title: "क्यों परेशान करती हो" },
