@@ -80,6 +80,7 @@ const english = [
 ];
 
 const spanish = [
+  { id: "Ph_e2iTYwRg", title: "Latido Vivo" },
   { id: "QajtdMlZSyw", title: "Me enamoré sin permiso" },
   { id: "H8B1W7MrG44", title: "No Eres Mío" },
   { id: "NK_V1ZROi0E", title: "Cuando Me Miras Así" },
