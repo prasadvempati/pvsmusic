@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import songs from "./songs";
-import Admin from "./Admin";
 
 const TABS = [
   { key: "all",     label: "All" },
@@ -20,8 +19,24 @@ function getDisplaySongs(tab, isShorts) {
   return songs[tab] || [];
 }
 
-function tabCount(key, isShorts) {
-  return getDisplaySongs(key, isShorts).length;
+const SORTS = [
+  { key: "newest", label: "Newest" },
+  { key: "views",  label: "Most viewed" },
+];
+
+function matches(song, q) {
+  return !q || song.title.toLowerCase().includes(q);
+}
+
+function applyView(list, q, sort) {
+  const filtered = list.filter((s) => matches(s, q));
+  if (sort === "views") return [...filtered].sort((a, b) => (b.views || 0) - (a.views || 0));
+  return filtered;
+}
+
+function initialSearch() {
+  try { return new URLSearchParams(window.location.search).get("search") || ""; }
+  catch { return ""; }
 }
 
 // Sharpest thumbnails first. Shorts use the vertical 1080x1920 frame (oar2);
@@ -47,7 +62,9 @@ function SongCard({ id, title, isShort, views }) {
   const [sizeIdx, setSizeIdx] = useState(0);
   const thumb = `https://i.ytimg.com/vi/${id}/${sizes[sizeIdx]}.jpg`;
   const tryNext = () => setSizeIdx((i) => (i < sizes.length - 1 ? i + 1 : i));
-  const url   = `https://www.youtube.com/watch?v=${id}`;
+  const url   = isShort
+    ? `https://www.youtube.com/shorts/${id}`
+    : `https://www.youtube.com/watch?v=${id}`;
 
   return (
     <a
@@ -92,7 +109,15 @@ function MainSite() {
   const [activeTab,  setActiveTab]  = useState("all");
   const [showShorts, setShowShorts] = useState(false);
 
-  const displaySongs = getDisplaySongs(activeTab, showShorts);
+  const [query,      setQuery]      = useState(initialSearch);
+  const [sort,       setSort]       = useState("newest");
+  const q = query.trim().toLowerCase();
+
+  const displaySongs = useMemo(
+    () => applyView(getDisplaySongs(activeTab, showShorts), q, sort),
+    [activeTab, showShorts, q, sort]
+  );
+  const tabCount = (key) => getDisplaySongs(key, showShorts).filter((s) => matches(s, q)).length;
 
   return (
     <div className="site loaded">
@@ -154,7 +179,7 @@ function MainSite() {
                 onClick={() => setActiveTab(key)}
               >
                 <span className="tab-primary">{label}</span>
-                <span className="tab-count">{tabCount(key, showShorts)}</span>
+                <span className="tab-count">{tabCount(key)}</span>
               </button>
             ))}
           </div>
@@ -181,6 +206,32 @@ function MainSite() {
         </div>
       </div>
 
+      <div className="controls-row">
+        <label className="search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" />
+          </svg>
+          <input
+            type="search"
+            placeholder="Search songs…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            aria-label="Search songs"
+          />
+        </label>
+        <div className="format-toggle" role="group" aria-label="Sort">
+          {SORTS.map(({ key, label }) => (
+            <button
+              key={key}
+              className={`toggle-btn${sort === key ? " active" : ""}`}
+              onClick={() => setSort(key)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <main className="song-grid-wrap">
         <div className={`song-grid${showShorts ? " song-grid--shorts" : ""}`}>
           {displaySongs.length === 0 ? (
@@ -189,9 +240,7 @@ function MainSite() {
                 <path d="M9 18V5l12-2v13M6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm12-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
               </svg>
               <p>
-                {showShorts
-                  ? "Shorts coming soon — check back after uploading Shorts to YouTube."
-                  : "No songs found."}
+                {q ? `No songs match “${query.trim()}”.` : "No songs found."}
               </p>
             </div>
           ) : (
@@ -225,8 +274,6 @@ function MainSite() {
   );
 }
 
-// Simple client-side router — no react-router needed
 export default function App() {
-  const isAdmin = window.location.pathname === "/admin";
-  return isAdmin ? <Admin /> : <MainSite />;
+  return <MainSite />;
 }
