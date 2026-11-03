@@ -41,6 +41,7 @@ const hindi = [
 ];
 
 const english = [
+  { id: "La0zUp9Se5M", title: "Tangible Skin" },
   { id: "Qi--c7WJmP0", title: "Sole Desire" },
   { id: "_5j4eh-ZpVc", title: "Made for the Spotlight" },
   { id: "GC62GWF5zCo", title: "When Snow Turns to Fire" },
@@ -101,7 +102,6 @@ const english = [
 
 const spanish = [
   { id: "VmzXLEROu7w", title: "Sin Saber Escribir Amor" },
-  { id: "La0zUp9Se5M", title: "Tangible Skin" },
   { id: "CwFLGK00Q1c", title: "Más Que Palabras" },
   { id: "_VGZa8cBt6Y", title: "La Fiesta de Mi Corazón" },
   { id: "b3OipOL2jns", title: "Oración del Silencio" },
