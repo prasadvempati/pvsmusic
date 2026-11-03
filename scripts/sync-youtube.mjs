@@ -67,7 +67,7 @@ async function main() {
   // Existing entries: id -> { title, bucket }
   const known = new Map();
   for (const bucket of ["hindi", "english", "spanish", "shorts"]) {
-    for (const s of current[bucket] || []) known.set(s.id, { title: s.title, bucket });
+    for (const s of current[bucket] || []) known.set(s.id, { title: s.title, bucket, lang: s.lang });
   }
 
   // 1. Channel -> uploads playlist
@@ -109,9 +109,10 @@ async function main() {
   for (const v of live) {
     const prev = known.get(v.id);
     const sn = v.snippet;
-    let bucket, title;
+    let bucket, title, lang;
     if (prev) {
-      ({ bucket, title } = prev);
+      ({ bucket, title, lang } = prev);
+      if (bucket === "shorts" && !lang) lang = detectLanguage({ title });
     } else {
       const seconds = isoToSeconds(v.contentDetails?.duration);
       bucket = (await isShort(v.id, seconds))
@@ -123,11 +124,26 @@ async function main() {
             audioLang: sn.defaultAudioLanguage || sn.defaultLanguage,
           });
       title = cleanTitle(sn.title);
-      added.push(`${bucket}: ${title} (${v.id})`);
+      if (bucket === "shorts") {
+        lang = detectLanguage({
+          title: sn.title,
+          description: sn.description,
+          tags: sn.tags,
+          audioLang: sn.defaultAudioLanguage || sn.defaultLanguage,
+        });
+      }
+      added.push(`${bucket}${lang ? "/" + lang : ""}: ${title} (${v.id})`);
     }
-    if (overrides.language?.[v.id]) bucket = overrides.language[v.id];
+    // Override: "shorts" moves a video to Shorts; a language sets the
+    // section for full songs, or the language tab for a Short.
+    const ov = overrides.language?.[v.id];
+    if (ov === "shorts") bucket = "shorts";
+    else if (ov && bucket === "shorts") lang = ov;
+    else if (ov) bucket = ov;
+    if (bucket === "shorts" && !lang) lang = detectLanguage({ title });
     if (overrides.title?.[v.id]) title = overrides.title[v.id];
-    (out[bucket] || out.english).push({ id: v.id, title });
+    const entry = bucket === "shorts" ? { id: v.id, title, lang } : { id: v.id, title };
+    (out[bucket] || out.english).push(entry);
   }
 
   const removed = [...known.keys()].filter((id) => !live.some((v) => v.id === id));
@@ -141,7 +157,10 @@ async function main() {
   }
 
   const fmt = (arr) =>
-    arr.map((s) => `  { id: "${s.id}", title: ${JSON.stringify(s.title)} },`).join("\n");
+    arr
+      .map((s) =>
+        `  { id: "${s.id}", title: ${JSON.stringify(s.title)}${s.lang ? `, lang: "${s.lang}"` : ""} },`)
+      .join("\n");
   const file = `// PVS Music – Song Catalog
 // Updated automatically from YouTube by scripts/sync-youtube.mjs.
 // To hide a video or fix a language/title, edit src/song-overrides.json.
@@ -158,7 +177,7 @@ const spanish = [
 ${fmt(out.spanish)}
 ];
 
-// Shorts
+// Shorts (lang = hindi | english | spanish)
 const shorts = [
 ${fmt(out.shorts)}
 ];

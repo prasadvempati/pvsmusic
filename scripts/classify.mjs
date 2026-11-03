@@ -7,12 +7,20 @@ const ES_WORDS = new Set(`el la los las un una de del que y en mi mis tu tus te 
   sin por con para cuando donde dónde como cómo amor corazón eres soy estás está alma
   vida noche luz cielo beso besos quiero siento contigo conmigo nunca siempre otra vez
   vuelve regresa ritmo tan ahí sólo solo tuya tuyo mío mía nadie alguien llama dime
-  mundo sueño destino tarde silencio final baila báilame latido canción`.split(/\s+/));
+  mundo sueño destino tarde silencio final baila báilame latido canción
+  bello bella noches noche eternas eterno ay mamita papi rindo mírame ti yo nos
+  dejo caer besame bésame quédate fuego luna sol mar estrellas cielo tus sus esta este`.split(/\s+/));
 
 const EN_WORDS = new Set(`the you your i i'm me my mine love heart of in on to and is
   are be it this that what when where with without all only one just always never
   still feel fall night eyes into away stay know like found everything moment
   someday forever prayer smile heart whispers wind`.split(/\s+/));
+
+// Romanized Hindi words (titles like "Tujh Mein Basa Hai Pyaar Mera")
+const HI_WORDS = new Set(`tujh tujhe mujh mujhe mein main hai hain pyaar pyar mera meri mere
+  tera teri tere dil ishq jaana jaan sanam mohabbat kya nahi nahin ke ki ko se tum
+  hum tumhe humko yaad raat chand saath sang bina zindagi aankhen nazar dard
+  basa hua hui ho gaya kabhi bas yeh woh`.split(/\s+/));
 
 const HINDI_HINTS = /\b(hindi|bollywood|raag|raga|ghazal|hindi song)\b/i;
 const SPANISH_HINTS = /\b(spanish|español|espanol|latin|latino|bachata|reggaeton|canción)\b/i;
@@ -20,13 +28,14 @@ const ENGLISH_HINTS = /\b(english song|english)\b/i;
 
 function score(text) {
   const words = text.toLowerCase().replace(/[^\p{L}\s']/gu, " ").split(/\s+/).filter(Boolean);
-  let es = 0, en = 0;
+  let es = 0, en = 0, hi = 0;
   for (const w of words) {
+    if (HI_WORDS.has(w)) hi++;
     if (ES_WORDS.has(w)) es++;
     if (EN_WORDS.has(w)) en++;
   }
   if (SPANISH_CHARS.test(text)) es += 2;
-  return { es, en };
+  return { es, en, hi };
 }
 
 export function detectLanguage({ title = "", description = "", tags = [], audioLang = "" }) {
@@ -47,6 +56,8 @@ export function detectLanguage({ title = "", description = "", tags = [], audioL
   const d = score(description.slice(0, 1500));
   const es = t.es * 2 + d.es;
   const en = t.en * 2 + d.en;
+  const hi = t.hi * 2 + d.hi;
+  if (hi > es && hi > en && t.hi >= 2) return "hindi";
   if (es > en) return "spanish";
   if (lang.startsWith("en") || en > 0) return "english";
   return "english";

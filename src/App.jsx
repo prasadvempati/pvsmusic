@@ -12,14 +12,16 @@ const TABS = [
 const allSongs = [...songs.hindi, ...songs.english, ...songs.spanish];
 
 function getDisplaySongs(tab, isShorts) {
-  if (isShorts) return songs.shorts;
+  if (isShorts) {
+    if (tab === "all") return songs.shorts;
+    return songs.shorts.filter((s) => s.lang === tab);
+  }
   if (tab === "all") return allSongs;
   return songs[tab] || [];
 }
 
-function tabCount(key) {
-  if (key === "all") return allSongs.length;
-  return (songs[key] || []).length;
+function tabCount(key, isShorts) {
+  return getDisplaySongs(key, isShorts).length;
 }
 
 function SongCard({ id, title, isShort }) {
@@ -114,14 +116,14 @@ function MainSite() {
       <div className="tabs-bar">
         <div className="tabs-row">
           <div className="tabs-inner">
-            {!showShorts && TABS.map(({ key, label }) => (
+            {TABS.map(({ key, label }) => (
               <button
                 key={key}
                 className={`tab-btn${activeTab === key ? " active" : ""}`}
                 onClick={() => setActiveTab(key)}
               >
                 <span className="tab-primary">{label}</span>
-                <span className="tab-count">{tabCount(key)}</span>
+                <span className="tab-count">{tabCount(key, showShorts)}</span>
               </button>
             ))}
           </div>
