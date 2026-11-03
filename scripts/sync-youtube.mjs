@@ -55,6 +55,14 @@ async function isShort(id, seconds) {
   return seconds > 0 && seconds <= 60; // fallback
 }
 
+// Keep 3 significant digits so songs.js (and the site) only change
+// when the number shown on the card would change.
+function roundViews(n) {
+  if (n < 1000) return n;
+  const p = 10 ** (Math.floor(Math.log10(n)) - 2);
+  return Math.round(n / p) * p;
+}
+
 async function loadJson(file, fallback) {
   try { return JSON.parse(await fs.readFile(file, "utf8")); } catch { return fallback; }
 }
@@ -93,7 +101,7 @@ async function main() {
   const videos = [];
   for (let i = 0; i < ids.length; i += 50) {
     const batch = await yt("videos", {
-      part: "snippet,contentDetails,status", id: ids.slice(i, i + 50).join(","), maxResults: 50,
+      part: "snippet,contentDetails,status,statistics", id: ids.slice(i, i + 50).join(","), maxResults: 50,
     });
     videos.push(...(batch.items || []));
   }
@@ -142,7 +150,8 @@ async function main() {
     else if (ov) bucket = ov;
     if (bucket === "shorts" && !lang) lang = detectLanguage({ title });
     if (overrides.title?.[v.id]) title = overrides.title[v.id];
-    const entry = bucket === "shorts" ? { id: v.id, title, lang } : { id: v.id, title };
+    const views = roundViews(+v.statistics?.viewCount || 0);
+    const entry = bucket === "shorts" ? { id: v.id, title, lang, views } : { id: v.id, title, views };
     (out[bucket] || out.english).push(entry);
   }
 
@@ -159,7 +168,7 @@ async function main() {
   const fmt = (arr) =>
     arr
       .map((s) =>
-        `  { id: "${s.id}", title: ${JSON.stringify(s.title)}${s.lang ? `, lang: "${s.lang}"` : ""} },`)
+        `  { id: "${s.id}", title: ${JSON.stringify(s.title)}${s.lang ? `, lang: "${s.lang}"` : ""}${s.views ? `, views: ${s.views}` : ""} },`)
       .join("\n");
   const file = `// PVS Music – Song Catalog
 // Updated automatically from YouTube by scripts/sync-youtube.mjs.

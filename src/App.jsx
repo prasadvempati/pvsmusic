@@ -32,7 +32,16 @@ const THUMB_SIZES = {
   video: ["hq720", "sddefault", "hqdefault"],
 };
 
-function SongCard({ id, title, isShort }) {
+function formatViews(n) {
+  if (!n) return "";
+  const fmt = (v, unit) => `${v >= 100 ? Math.round(v) : +v.toFixed(1)}${unit}`;
+  if (n >= 1e9) return fmt(n / 1e9, "B") + " views";
+  if (n >= 1e6) return fmt(n / 1e6, "M") + " views";
+  if (n >= 1e3) return fmt(n / 1e3, "K") + " views";
+  return `${n} view${n === 1 ? "" : "s"}`;
+}
+
+function SongCard({ id, title, isShort, views }) {
   const [hovered, setHovered] = useState(false);
   const sizes = THUMB_SIZES[isShort ? "short" : "video"];
   const [sizeIdx, setSizeIdx] = useState(0);
@@ -70,7 +79,10 @@ function SongCard({ id, title, isShort }) {
       </div>
       <div className="card-body">
         <p className="song-title">{title}</p>
-        <span className="watch-link">Watch on YouTube →</span>
+        <div className="card-meta">
+          {views ? <span className="view-count">{formatViews(views)}</span> : null}
+          <span className="watch-link">Watch on YouTube →</span>
+        </div>
       </div>
     </a>
   );
@@ -188,6 +200,7 @@ function MainSite() {
                 key={song.id}
                 id={song.id}
                 title={song.title}
+                views={song.views}
                 isShort={showShorts}
               />
             ))
