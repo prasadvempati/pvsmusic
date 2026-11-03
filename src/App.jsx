@@ -24,9 +24,20 @@ function tabCount(key, isShorts) {
   return getDisplaySongs(key, isShorts).length;
 }
 
+// Sharpest thumbnails first. Shorts use the vertical 1080x1920 frame (oar2);
+// videos use 1280x720 (hq720). If YouTube lacks one it serves a 120x90
+// grey placeholder instead of an error, so we check the size and step down.
+const THUMB_SIZES = {
+  short: ["oar2", "hq720", "hqdefault"],
+  video: ["hq720", "sddefault", "hqdefault"],
+};
+
 function SongCard({ id, title, isShort }) {
   const [hovered, setHovered] = useState(false);
-  const thumb = `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
+  const sizes = THUMB_SIZES[isShort ? "short" : "video"];
+  const [sizeIdx, setSizeIdx] = useState(0);
+  const thumb = `https://i.ytimg.com/vi/${id}/${sizes[sizeIdx]}.jpg`;
+  const tryNext = () => setSizeIdx((i) => (i < sizes.length - 1 ? i + 1 : i));
   const url   = `https://www.youtube.com/watch?v=${id}`;
 
   return (
@@ -39,7 +50,15 @@ function SongCard({ id, title, isShort }) {
       onMouseLeave={() => setHovered(false)}
     >
       <div className="thumbnail-wrap">
-        <img className="thumb-img" src={thumb} alt={title} loading="lazy" />
+        <img
+          className="thumb-img"
+          src={thumb}
+          alt={title}
+          loading="lazy"
+          decoding="async"
+          onLoad={(e) => { if (e.currentTarget.naturalWidth <= 120) tryNext(); }}
+          onError={tryNext}
+        />
         <div className={`play-overlay${hovered ? " visible" : ""}`}>
           <div className="play-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
