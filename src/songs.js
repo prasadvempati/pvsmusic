@@ -41,7 +41,7 @@ const hindi = [
 ];
 
 const english = [
-  { id: "La0zUp9Se5M", title: "Tangible Skin", views: 511 },
+  { id: "La0zUp9Se5M", title: "Tangible Skin", views: 512 },
   { id: "Qi--c7WJmP0", title: "Sole Desire", views: 1720 },
   { id: "_5j4eh-ZpVc", title: "Made for the Spotlight", views: 4280 },
   { id: "GC62GWF5zCo", title: "When Snow Turns to Fire", views: 1540 },
@@ -101,7 +101,7 @@ const english = [
 ];
 
 const spanish = [
-  { id: "VmzXLEROu7w", title: "Sin Saber Escribir Amor", views: 1000 },
+  { id: "VmzXLEROu7w", title: "Sin Saber Escribir Amor", views: 1170 },
   { id: "CwFLGK00Q1c", title: "Más Que Palabras", views: 2360 },
   { id: "_VGZa8cBt6Y", title: "La Fiesta de Mi Corazón", views: 11800 },
   { id: "b3OipOL2jns", title: "Oración del Silencio", views: 1690 },
@@ -112,9 +112,9 @@ const spanish = [
   { id: "uRIyB0VHNv0", title: "Báilame el Silencio", views: 778 },
   { id: "QajtdMlZSyw", title: "Me enamoré sin permiso", views: 834 },
   { id: "H8B1W7MrG44", title: "No Eres Mío", views: 5570 },
-  { id: "NK_V1ZROi0E", title: "Cuando Me Miras Así", views: 11400 },
+  { id: "NK_V1ZROi0E", title: "Cuando Me Miras Así", views: 11500 },
   { id: "svGIjYeJa8w", title: "Vuelve, Regresa", views: 1340 },
-  { id: "oACsT36UExc", title: "Tan Perfecta", views: 8050 },
+  { id: "oACsT36UExc", title: "Tan Perfecta", views: 8230 },
   { id: "1m9JqeoRSVo", title: "Se Me Pega Tu Ritmo", views: 2880 },
   { id: "9VhcnWK2ZNY", title: "Dime por qué", views: 2630 },
   { id: "tyMDZ_-rd1Y", title: "Sin Ser Mío", views: 2080 },
@@ -132,31 +132,31 @@ const spanish = [
   { id: "my-B9InFe_s", title: "Ahí Donde Estás", views: 7000 },
   { id: "LBVDfFnjxkY", title: "Persiguiéndote en el Viento", views: 463 },
   { id: "UPl39p0DhJA", title: "Como la Luz al Amanecer", views: 861 },
-  { id: "XAphhf6rYs0", title: "Donde No Llega el Mundo", views: 716 },
+  { id: "XAphhf6rYs0", title: "Donde No Llega el Mundo", views: 717 },
 ];
 
 // Shorts (lang = hindi | english | spanish)
 const shorts = [
-  { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 941 },
-  { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 866 },
-  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 59800 },
-  { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 19600 },
+  { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 962 },
+  { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 873 },
+  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 60200 },
+  { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 19900 },
   { id: "DDEtgiTsSFE", title: "Before the Sky Turns Blue", lang: "english", views: 14100 },
-  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 59700 },
+  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 59800 },
   { id: "TFePDr1p8m8", title: "चुपके से", lang: "hindi", views: 63900 },
   { id: "mrNzeTfJg1M", title: "Until I See Your Face", lang: "english", views: 5140 },
-  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 4890 },
+  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 4970 },
   { id: "8jfKdEl8UNE", title: "नज़र का जादू", lang: "hindi", views: 3900 },
   { id: "OsY2HR6UunU", title: "Poema De Un Instante", lang: "spanish", views: 4410 },
   { id: "abjfQNKYsTk", title: "Stay till the Morning", lang: "english", views: 15100 },
   { id: "AgYfJo7vKDE", title: "When You Light the Sky", lang: "english", views: 50100 },
   { id: "3xtZ51InKys", title: "Tus miradas me encienden el alma", lang: "spanish", views: 4650 },
-  { id: "3wNiBOtOOpA", title: "Dime por qué", lang: "spanish", views: 4060 },
+  { id: "3wNiBOtOOpA", title: "Dime por qué", lang: "spanish", views: 4070 },
   { id: "Xp7lmDbeSm0", title: "ख़त नहीं, दिल भेजूँ", lang: "hindi", views: 310000 },
   { id: "-Bv5KAiw_g4", title: "Without You, I Am Empty", lang: "english", views: 5190 },
   { id: "2pF3vdJWkM0", title: "सच बोल दे", lang: "hindi", views: 8170 },
   { id: "yduEdNduB1c", title: "What Your Eyes Keep Saying", lang: "english", views: 6530 },
-  { id: "Q0JNRvMeTmI", title: "मीठी चुभन", lang: "hindi", views: 264000 },
+  { id: "Q0JNRvMeTmI", title: "मीठी चुभन", lang: "hindi", views: 265000 },
   { id: "0ez-wnwP6xI", title: "तूने कुछ ऐसा किया", lang: "hindi", views: 12100 },
   { id: "gl9wQLfuXVc", title: "Stay Where I am", lang: "english", views: 8880 },
   { id: "bi5qXNw-75c", title: "Cuando Te Recuerdo", lang: "spanish", views: 8580 },
