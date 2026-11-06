@@ -7,7 +7,7 @@ const hindi = [
   { id: "y9QTYxh7_aw", title: "Tujh Mein Basa Hai Pyaar Mera", views: 7940 },
   { id: "ShkP5fqS4KI", title: "मेरी जान की कसम", views: 795 },
   { id: "5U7DTris3cg", title: "मेरा सुकून", views: 3950 },
-  { id: "8LBJjVacSgg", title: "तेरे संग रहूँगी", views: 9790 },
+  { id: "8LBJjVacSgg", title: "तेरे संग रहूँगी", views: 9800 },
   { id: "kV2u3UqTw3E", title: "इश्क़ की मन्नत", views: 2530 },
   { id: "B9WYEbXdP9s", title: "तेरी आँखों ने", views: 4850 },
   { id: "hicQZNqt8_4", title: "आप जो हमारे", views: 4470 },
@@ -41,13 +41,13 @@ const hindi = [
 ];
 
 const english = [
-  { id: "La0zUp9Se5M", title: "Tangible Skin", views: 519 },
+  { id: "La0zUp9Se5M", title: "Tangible Skin", views: 520 },
   { id: "Qi--c7WJmP0", title: "Sole Desire", views: 1720 },
   { id: "_5j4eh-ZpVc", title: "Made for the Spotlight", views: 4280 },
   { id: "GC62GWF5zCo", title: "When Snow Turns to Fire", views: 1540 },
   { id: "fdXH5_qR0-Y", title: "More Than Words", views: 5870 },
   { id: "YHEBCQEQc-c", title: "When The Light Fades Low", views: 10700 },
-  { id: "2kUkVGn7EnU", title: "When Your Silence Falls", views: 23300 },
+  { id: "2kUkVGn7EnU", title: "When Your Silence Falls", views: 23400 },
   { id: "hybaTkXXGO0", title: "When You Get Close", views: 357 },
   { id: "8dV9O0uX5U4", title: "I Fell Without Warning", views: 866 },
   { id: "q0IETOqc9jQ", title: "Every Moment Tied to You", views: 4720 },
@@ -101,7 +101,7 @@ const english = [
 ];
 
 const spanish = [
-  { id: "VmzXLEROu7w", title: "Sin Saber Escribir Amor", views: 1220 },
+  { id: "VmzXLEROu7w", title: "Sin Saber Escribir Amor", views: 1250 },
   { id: "CwFLGK00Q1c", title: "Más Que Palabras", views: 2370 },
   { id: "_VGZa8cBt6Y", title: "La Fiesta de Mi Corazón", views: 11800 },
   { id: "b3OipOL2jns", title: "Oración del Silencio", views: 1690 },
@@ -137,26 +137,26 @@ const spanish = [
 
 // Shorts (lang = hindi | english | spanish)
 const shorts = [
-  { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 990 },
-  { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 878 },
-  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 63100 },
+  { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 996 },
+  { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 880 },
+  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 63700 },
   { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 20500 },
   { id: "DDEtgiTsSFE", title: "Before the Sky Turns Blue", lang: "english", views: 14200 },
-  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 60200 },
+  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 60300 },
   { id: "TFePDr1p8m8", title: "चुपके से", lang: "hindi", views: 64000 },
   { id: "mrNzeTfJg1M", title: "Until I See Your Face", lang: "english", views: 5140 },
-  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 5220 },
+  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 5230 },
   { id: "8jfKdEl8UNE", title: "नज़र का जादू", lang: "hindi", views: 3900 },
   { id: "OsY2HR6UunU", title: "Poema De Un Instante", lang: "spanish", views: 4410 },
   { id: "abjfQNKYsTk", title: "Stay till the Morning", lang: "english", views: 15200 },
   { id: "AgYfJo7vKDE", title: "When You Light the Sky", lang: "english", views: 50100 },
-  { id: "3xtZ51InKys", title: "Tus miradas me encienden el alma", lang: "spanish", views: 4650 },
+  { id: "3xtZ51InKys", title: "Tus miradas me encienden el alma", lang: "spanish", views: 4660 },
   { id: "3wNiBOtOOpA", title: "Dime por qué", lang: "spanish", views: 4070 },
   { id: "Xp7lmDbeSm0", title: "ख़त नहीं, दिल भेजूँ", lang: "hindi", views: 310000 },
   { id: "-Bv5KAiw_g4", title: "Without You, I Am Empty", lang: "english", views: 5190 },
   { id: "2pF3vdJWkM0", title: "सच बोल दे", lang: "hindi", views: 8170 },
   { id: "yduEdNduB1c", title: "What Your Eyes Keep Saying", lang: "english", views: 6530 },
-  { id: "Q0JNRvMeTmI", title: "मीठी चुभन", lang: "hindi", views: 265000 },
+  { id: "Q0JNRvMeTmI", title: "मीठी चुभन", lang: "hindi", views: 266000 },
   { id: "0ez-wnwP6xI", title: "तूने कुछ ऐसा किया", lang: "hindi", views: 12100 },
   { id: "gl9wQLfuXVc", title: "Stay Where I am", lang: "english", views: 8880 },
   { id: "bi5qXNw-75c", title: "Cuando Te Recuerdo", lang: "spanish", views: 8580 },
