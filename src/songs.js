@@ -41,8 +41,8 @@ const hindi = [
 ];
 
 const english = [
-  { id: "La0zUp9Se5M", title: "Tangible Skin", views: 529 },
-  { id: "Qi--c7WJmP0", title: "Sole Desire", views: 1720 },
+  { id: "La0zUp9Se5M", title: "Tangible Skin", views: 535 },
+  { id: "Qi--c7WJmP0", title: "Sole Desire", views: 1730 },
   { id: "_5j4eh-ZpVc", title: "Made for the Spotlight", views: 4280 },
   { id: "GC62GWF5zCo", title: "When Snow Turns to Fire", views: 1540 },
   { id: "fdXH5_qR0-Y", title: "More Than Words", views: 5880 },
@@ -101,7 +101,7 @@ const english = [
 ];
 
 const spanish = [
-  { id: "VmzXLEROu7w", title: "Sin Saber Escribir Amor", views: 1490 },
+  { id: "VmzXLEROu7w", title: "Sin Saber Escribir Amor", views: 1540 },
   { id: "CwFLGK00Q1c", title: "Más Que Palabras", views: 2390 },
   { id: "_VGZa8cBt6Y", title: "La Fiesta de Mi Corazón", views: 11800 },
   { id: "b3OipOL2jns", title: "Oración del Silencio", views: 1690 },
@@ -114,7 +114,7 @@ const spanish = [
   { id: "H8B1W7MrG44", title: "No Eres Mío", views: 5570 },
   { id: "NK_V1ZROi0E", title: "Cuando Me Miras Así", views: 11600 },
   { id: "svGIjYeJa8w", title: "Vuelve, Regresa", views: 1340 },
-  { id: "oACsT36UExc", title: "Tan Perfecta", views: 8370 },
+  { id: "oACsT36UExc", title: "Tan Perfecta", views: 8410 },
   { id: "1m9JqeoRSVo", title: "Se Me Pega Tu Ritmo", views: 2880 },
   { id: "9VhcnWK2ZNY", title: "Dime por qué", views: 2630 },
   { id: "tyMDZ_-rd1Y", title: "Sin Ser Mío", views: 2080 },
@@ -137,16 +137,16 @@ const spanish = [
 
 // Shorts (lang = hindi | english | spanish)
 const shorts = [
-  { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 1170 },
-  { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 892 },
-  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 76700 },
-  { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 21900 },
+  { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 1210 },
+  { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 904 },
+  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 81600 },
+  { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 22300 },
   { id: "DDEtgiTsSFE", title: "Before the Sky Turns Blue", lang: "english", views: 14200 },
-  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 63100 },
-  { id: "TFePDr1p8m8", title: "चुपके से", lang: "hindi", views: 64300 },
+  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 64200 },
+  { id: "TFePDr1p8m8", title: "चुपके से", lang: "hindi", views: 64400 },
   { id: "mrNzeTfJg1M", title: "Until I See Your Face", lang: "english", views: 5150 },
-  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 5650 },
-  { id: "8jfKdEl8UNE", title: "नज़र का जादू", lang: "hindi", views: 3900 },
+  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 5710 },
+  { id: "8jfKdEl8UNE", title: "नज़र का जादू", lang: "hindi", views: 3910 },
   { id: "OsY2HR6UunU", title: "Poema De Un Instante", lang: "spanish", views: 4420 },
   { id: "abjfQNKYsTk", title: "Stay till the Morning", lang: "english", views: 15200 },
   { id: "AgYfJo7vKDE", title: "When You Light the Sky", lang: "english", views: 50100 },
@@ -154,9 +154,9 @@ const shorts = [
   { id: "3wNiBOtOOpA", title: "Dime por qué", lang: "spanish", views: 4070 },
   { id: "Xp7lmDbeSm0", title: "ख़त नहीं, दिल भेजूँ", lang: "hindi", views: 310000 },
   { id: "-Bv5KAiw_g4", title: "Without You, I Am Empty", lang: "english", views: 5190 },
-  { id: "2pF3vdJWkM0", title: "सच बोल दे", lang: "hindi", views: 8170 },
+  { id: "2pF3vdJWkM0", title: "सच बोल दे", lang: "hindi", views: 8180 },
   { id: "yduEdNduB1c", title: "What Your Eyes Keep Saying", lang: "english", views: 6530 },
-  { id: "Q0JNRvMeTmI", title: "मीठी चुभन", lang: "hindi", views: 267000 },
+  { id: "Q0JNRvMeTmI", title: "मीठी चुभन", lang: "hindi", views: 268000 },
   { id: "0ez-wnwP6xI", title: "तूने कुछ ऐसा किया", lang: "hindi", views: 12100 },
   { id: "gl9wQLfuXVc", title: "Stay Where I am", lang: "english", views: 8880 },
   { id: "bi5qXNw-75c", title: "Cuando Te Recuerdo", lang: "spanish", views: 8580 },
