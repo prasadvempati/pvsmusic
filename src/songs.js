@@ -4,7 +4,7 @@
 
 const hindi = [
   { id: "UQ5-JpW6-wU", title: "सिंदूरी अनुराग", views: 1310 },
-  { id: "y9QTYxh7_aw", title: "Tujh Mein Basa Hai Pyaar Mera", views: 7940 },
+  { id: "y9QTYxh7_aw", title: "Tujh Mein Basa Hai Pyaar Mera", views: 7950 },
   { id: "ShkP5fqS4KI", title: "मेरी जान की कसम", views: 795 },
   { id: "5U7DTris3cg", title: "मेरा सुकून", views: 3950 },
   { id: "8LBJjVacSgg", title: "तेरे संग रहूँगी", views: 9800 },
@@ -19,7 +19,7 @@ const hindi = [
   { id: "luCHZ0kFKQo", title: "रंग तेरा", views: 1030 },
   { id: "QWTIc1iVBMg", title: "झनक झनक पायलिया", views: 56300 },
   { id: "jwBzeVrSxQA", title: "तू ही मेरी आदत", views: 1600 },
-  { id: "6qqtx0AHLhk", title: "तेरे संग बहारें", views: 8720 },
+  { id: "6qqtx0AHLhk", title: "तेरे संग बहारें", views: 8730 },
   { id: "My_1qLF14B0", title: "तेरी आँखों का राज़", views: 2310 },
   { id: "qIIUpksQq30", title: "तेरे संग बंधी", views: 960 },
   { id: "i6T7xkorXD0", title: "अब मैं चलूँ", views: 2140 },
@@ -41,11 +41,11 @@ const hindi = [
 ];
 
 const english = [
-  { id: "La0zUp9Se5M", title: "Tangible Skin", views: 520 },
+  { id: "La0zUp9Se5M", title: "Tangible Skin", views: 526 },
   { id: "Qi--c7WJmP0", title: "Sole Desire", views: 1720 },
   { id: "_5j4eh-ZpVc", title: "Made for the Spotlight", views: 4280 },
   { id: "GC62GWF5zCo", title: "When Snow Turns to Fire", views: 1540 },
-  { id: "fdXH5_qR0-Y", title: "More Than Words", views: 5870 },
+  { id: "fdXH5_qR0-Y", title: "More Than Words", views: 5880 },
   { id: "YHEBCQEQc-c", title: "When The Light Fades Low", views: 10700 },
   { id: "2kUkVGn7EnU", title: "When Your Silence Falls", views: 23400 },
   { id: "hybaTkXXGO0", title: "When You Get Close", views: 357 },
@@ -101,7 +101,7 @@ const english = [
 ];
 
 const spanish = [
-  { id: "VmzXLEROu7w", title: "Sin Saber Escribir Amor", views: 1250 },
+  { id: "VmzXLEROu7w", title: "Sin Saber Escribir Amor", views: 1300 },
   { id: "CwFLGK00Q1c", title: "Más Que Palabras", views: 2370 },
   { id: "_VGZa8cBt6Y", title: "La Fiesta de Mi Corazón", views: 11800 },
   { id: "b3OipOL2jns", title: "Oración del Silencio", views: 1690 },
@@ -114,7 +114,7 @@ const spanish = [
   { id: "H8B1W7MrG44", title: "No Eres Mío", views: 5570 },
   { id: "NK_V1ZROi0E", title: "Cuando Me Miras Así", views: 11500 },
   { id: "svGIjYeJa8w", title: "Vuelve, Regresa", views: 1340 },
-  { id: "oACsT36UExc", title: "Tan Perfecta", views: 8260 },
+  { id: "oACsT36UExc", title: "Tan Perfecta", views: 8290 },
   { id: "1m9JqeoRSVo", title: "Se Me Pega Tu Ritmo", views: 2880 },
   { id: "9VhcnWK2ZNY", title: "Dime por qué", views: 2630 },
   { id: "tyMDZ_-rd1Y", title: "Sin Ser Mío", views: 2080 },
@@ -137,15 +137,15 @@ const spanish = [
 
 // Shorts (lang = hindi | english | spanish)
 const shorts = [
-  { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 996 },
+  { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 1020 },
   { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 880 },
-  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 63700 },
-  { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 20500 },
+  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 65200 },
+  { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 20800 },
   { id: "DDEtgiTsSFE", title: "Before the Sky Turns Blue", lang: "english", views: 14200 },
-  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 60300 },
+  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 60600 },
   { id: "TFePDr1p8m8", title: "चुपके से", lang: "hindi", views: 64000 },
   { id: "mrNzeTfJg1M", title: "Until I See Your Face", lang: "english", views: 5140 },
-  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 5230 },
+  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 5300 },
   { id: "8jfKdEl8UNE", title: "नज़र का जादू", lang: "hindi", views: 3900 },
   { id: "OsY2HR6UunU", title: "Poema De Un Instante", lang: "spanish", views: 4410 },
   { id: "abjfQNKYsTk", title: "Stay till the Morning", lang: "english", views: 15200 },
@@ -182,7 +182,7 @@ const shorts = [
   { id: "47EXEYnlvrw", title: "Souls Without End", lang: "english", views: 20300 },
   { id: "vwxVBXSFTVQ", title: "Cuando Tú Pasas", lang: "spanish", views: 19000 },
   { id: "7rgQXp4KNfM", title: "नज़रें मिली तो", lang: "hindi", views: 740000 },
-  { id: "GrNbmtaGqzM", title: "You're not mine", lang: "english", views: 32000 },
+  { id: "GrNbmtaGqzM", title: "You're not mine", lang: "english", views: 32100 },
   { id: "4QOxLMGJllI", title: "Algo Entre los Dos", lang: "spanish", views: 18900 },
   { id: "AKZepYI8n70", title: "एक अजनबी सी राह में", lang: "hindi", views: 23700 },
   { id: "ObwN8v-KRqM", title: "Lose the Ground", lang: "english", views: 16700 },
