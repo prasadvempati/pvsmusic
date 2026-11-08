@@ -3,6 +3,7 @@
 // To hide a video or fix a language/title, edit src/song-overrides.json.
 
 const hindi = [
+  { id: "lm-7TfyzXlw", title: "मीठी मखमली छाँव", views: 187 },
   { id: "UQ5-JpW6-wU", title: "सिंदूरी अनुराग", views: 1310 },
   { id: "y9QTYxh7_aw", title: "Tujh Mein Basa Hai Pyaar Mera", views: 7950 },
   { id: "ShkP5fqS4KI", title: "मेरी जान की कसम", views: 795 },
@@ -41,7 +42,7 @@ const hindi = [
 ];
 
 const english = [
-  { id: "La0zUp9Se5M", title: "Tangible Skin", views: 538 },
+  { id: "La0zUp9Se5M", title: "Tangible Skin", views: 539 },
   { id: "Qi--c7WJmP0", title: "Sole Desire", views: 1730 },
   { id: "_5j4eh-ZpVc", title: "Made for the Spotlight", views: 4280 },
   { id: "GC62GWF5zCo", title: "When Snow Turns to Fire", views: 1540 },
@@ -101,8 +102,8 @@ const english = [
 ];
 
 const spanish = [
-  { id: "VmzXLEROu7w", title: "Sin Saber Escribir Amor", views: 1600 },
-  { id: "CwFLGK00Q1c", title: "Más Que Palabras", views: 2390 },
+  { id: "VmzXLEROu7w", title: "Sin Saber Escribir Amor", views: 1690 },
+  { id: "CwFLGK00Q1c", title: "Más Que Palabras", views: 2400 },
   { id: "_VGZa8cBt6Y", title: "La Fiesta de Mi Corazón", views: 11800 },
   { id: "b3OipOL2jns", title: "Oración del Silencio", views: 1690 },
   { id: "AZiOnyyAlvg", title: "Me Dejo Caer", views: 8980 },
@@ -114,7 +115,7 @@ const spanish = [
   { id: "H8B1W7MrG44", title: "No Eres Mío", views: 5570 },
   { id: "NK_V1ZROi0E", title: "Cuando Me Miras Así", views: 11700 },
   { id: "svGIjYeJa8w", title: "Vuelve, Regresa", views: 1340 },
-  { id: "oACsT36UExc", title: "Tan Perfecta", views: 8440 },
+  { id: "oACsT36UExc", title: "Tan Perfecta", views: 8560 },
   { id: "1m9JqeoRSVo", title: "Se Me Pega Tu Ritmo", views: 2880 },
   { id: "9VhcnWK2ZNY", title: "Dime por qué", views: 2630 },
   { id: "tyMDZ_-rd1Y", title: "Sin Ser Mío", views: 2080 },
@@ -138,14 +139,14 @@ const spanish = [
 // Shorts (lang = hindi | english | spanish)
 const shorts = [
   { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 1290 },
-  { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 904 },
-  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 82000 },
-  { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 22500 },
+  { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 913 },
+  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 83600 },
+  { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 23000 },
   { id: "DDEtgiTsSFE", title: "Before the Sky Turns Blue", lang: "english", views: 14200 },
-  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 64200 },
+  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 64400 },
   { id: "TFePDr1p8m8", title: "चुपके से", lang: "hindi", views: 64500 },
   { id: "mrNzeTfJg1M", title: "Until I See Your Face", lang: "english", views: 5160 },
-  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 5780 },
+  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 5930 },
   { id: "8jfKdEl8UNE", title: "नज़र का जादू", lang: "hindi", views: 3910 },
   { id: "OsY2HR6UunU", title: "Poema De Un Instante", lang: "spanish", views: 4420 },
   { id: "abjfQNKYsTk", title: "Stay till the Morning", lang: "english", views: 15200 },
