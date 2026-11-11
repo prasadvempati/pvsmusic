@@ -3,7 +3,7 @@
 // To hide a video or fix a language/title, edit src/song-overrides.json.
 
 const hindi = [
-  { id: "lm-7TfyzXlw", title: "मीठी मखमली छाँव", views: 660 },
+  { id: "lm-7TfyzXlw", title: "मीठी मखमली छाँव", views: 730 },
   { id: "UQ5-JpW6-wU", title: "सिंदूरी अनुराग", views: 1310 },
   { id: "y9QTYxh7_aw", title: "Tujh Mein Basa Hai Pyaar Mera", views: 7960 },
   { id: "ShkP5fqS4KI", title: "मेरी जान की कसम", views: 796 },
@@ -42,8 +42,8 @@ const hindi = [
 ];
 
 const english = [
-  { id: "EXSgHfcY3lE", title: "The Way You Look at Me", views: 311 },
-  { id: "La0zUp9Se5M", title: "Tangible Skin", views: 559 },
+  { id: "EXSgHfcY3lE", title: "The Way You Look at Me", views: 323 },
+  { id: "La0zUp9Se5M", title: "Tangible Skin", views: 560 },
   { id: "Qi--c7WJmP0", title: "Sole Desire", views: 1730 },
   { id: "_5j4eh-ZpVc", title: "Made for the Spotlight", views: 4290 },
   { id: "GC62GWF5zCo", title: "When Snow Turns to Fire", views: 1540 },
@@ -140,16 +140,16 @@ const spanish = [
 // Shorts (lang = hindi | english | spanish)
 const shorts = [
   { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 1310 },
-  { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 993 },
-  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 111000 },
-  { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 25600 },
+  { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 1000 },
+  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 112000 },
+  { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 26300 },
   { id: "DDEtgiTsSFE", title: "Before the Sky Turns Blue", lang: "english", views: 14300 },
-  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 68300 },
+  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 68700 },
   { id: "TFePDr1p8m8", title: "चुपके से", lang: "hindi", views: 65300 },
   { id: "mrNzeTfJg1M", title: "Until I See Your Face", lang: "english", views: 5170 },
-  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 6850 },
+  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 7110 },
   { id: "8jfKdEl8UNE", title: "नज़र का जादू", lang: "hindi", views: 3910 },
-  { id: "OsY2HR6UunU", title: "Poema De Un Instante", lang: "spanish", views: 4420 },
+  { id: "OsY2HR6UunU", title: "Poema De Un Instante", lang: "spanish", views: 4430 },
   { id: "abjfQNKYsTk", title: "Stay till the Morning", lang: "english", views: 15200 },
   { id: "AgYfJo7vKDE", title: "When You Light the Sky", lang: "english", views: 50100 },
   { id: "3xtZ51InKys", title: "Tus miradas me encienden el alma", lang: "spanish", views: 4660 },
