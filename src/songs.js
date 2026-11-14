@@ -42,7 +42,7 @@ const hindi = [
 ];
 
 const english = [
-  { id: "EXSgHfcY3lE", title: "The Way You Look at Me", views: 538 },
+  { id: "EXSgHfcY3lE", title: "The Way You Look at Me", views: 543 },
   { id: "La0zUp9Se5M", title: "Tangible Skin", views: 572 },
   { id: "Qi--c7WJmP0", title: "Sole Desire", views: 1740 },
   { id: "_5j4eh-ZpVc", title: "Made for the Spotlight", views: 4290 },
@@ -139,16 +139,16 @@ const spanish = [
 
 // Shorts (lang = hindi | english | spanish)
 const shorts = [
-  { id: "rEwdA3XuVak", title: "एन्ना सोना दिल मेरा", lang: "hindi", views: 201 },
-  { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 1310 },
-  { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 1070 },
+  { id: "rEwdA3XuVak", title: "एन्ना सोना दिल मेरा", lang: "hindi", views: 232 },
+  { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 1320 },
+  { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 1080 },
   { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 128000 },
-  { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 28000 },
+  { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 28200 },
   { id: "DDEtgiTsSFE", title: "Before the Sky Turns Blue", lang: "english", views: 14300 },
-  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 72200 },
+  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 72300 },
   { id: "TFePDr1p8m8", title: "चुपके से", lang: "hindi", views: 65700 },
-  { id: "mrNzeTfJg1M", title: "Until I See Your Face", lang: "english", views: 5180 },
-  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 8270 },
+  { id: "mrNzeTfJg1M", title: "Until I See Your Face", lang: "english", views: 5190 },
+  { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 8380 },
   { id: "8jfKdEl8UNE", title: "नज़र का जादू", lang: "hindi", views: 3920 },
   { id: "OsY2HR6UunU", title: "Poema De Un Instante", lang: "spanish", views: 4430 },
   { id: "abjfQNKYsTk", title: "Stay till the Morning", lang: "english", views: 15200 },
