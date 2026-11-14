@@ -3,7 +3,7 @@
 // To hide a video or fix a language/title, edit src/song-overrides.json.
 
 const hindi = [
-  { id: "lm-7TfyzXlw", title: "मीठी मखमली छाँव", views: 1440 },
+  { id: "lm-7TfyzXlw", title: "मीठी मखमली छाँव", views: 1450 },
   { id: "UQ5-JpW6-wU", title: "सिंदूरी अनुराग", views: 1320 },
   { id: "y9QTYxh7_aw", title: "Tujh Mein Basa Hai Pyaar Mera", views: 7970 },
   { id: "ShkP5fqS4KI", title: "मेरी जान की कसम", views: 799 },
@@ -42,9 +42,9 @@ const hindi = [
 ];
 
 const english = [
-  { id: "EXSgHfcY3lE", title: "The Way You Look at Me", views: 571 },
+  { id: "EXSgHfcY3lE", title: "The Way You Look at Me", views: 592 },
   { id: "La0zUp9Se5M", title: "Tangible Skin", views: 572 },
-  { id: "Qi--c7WJmP0", title: "Sole Desire", views: 1740 },
+  { id: "Qi--c7WJmP0", title: "Sole Desire", views: 1750 },
   { id: "_5j4eh-ZpVc", title: "Made for the Spotlight", views: 4300 },
   { id: "GC62GWF5zCo", title: "When Snow Turns to Fire", views: 1550 },
   { id: "fdXH5_qR0-Y", title: "More Than Words", views: 5890 },
@@ -139,14 +139,14 @@ const spanish = [
 
 // Shorts (lang = hindi | english | spanish)
 const shorts = [
-  { id: "CecgUhDtrYY", title: "Se Me Olvida el Mundo", lang: "spanish", views: 333 },
-  { id: "rEwdA3XuVak", title: "एन्ना सोना दिल मेरा", lang: "hindi", views: 365 },
+  { id: "CecgUhDtrYY", title: "Se Me Olvida el Mundo", lang: "spanish", views: 468 },
+  { id: "rEwdA3XuVak", title: "एन्ना सोना दिल मेरा", lang: "hindi", views: 387 },
   { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 1320 },
   { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 1090 },
-  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 134000 },
+  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 135000 },
   { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 28400 },
   { id: "DDEtgiTsSFE", title: "Before the Sky Turns Blue", lang: "english", views: 14300 },
-  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 73000 },
+  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 73100 },
   { id: "TFePDr1p8m8", title: "चुपके से", lang: "hindi", views: 65800 },
   { id: "mrNzeTfJg1M", title: "Until I See Your Face", lang: "english", views: 5190 },
   { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 8520 },
@@ -186,7 +186,7 @@ const shorts = [
   { id: "47EXEYnlvrw", title: "Souls Without End", lang: "english", views: 20300 },
   { id: "vwxVBXSFTVQ", title: "Cuando Tú Pasas", lang: "spanish", views: 19000 },
   { id: "7rgQXp4KNfM", title: "नज़रें मिली तो", lang: "hindi", views: 741000 },
-  { id: "GrNbmtaGqzM", title: "You're not mine", lang: "english", views: 33100 },
+  { id: "GrNbmtaGqzM", title: "You're not mine", lang: "english", views: 33200 },
   { id: "4QOxLMGJllI", title: "Algo Entre los Dos", lang: "spanish", views: 18900 },
   { id: "AKZepYI8n70", title: "एक अजनबी सी राह में", lang: "hindi", views: 23700 },
   { id: "ObwN8v-KRqM", title: "Lose the Ground", lang: "english", views: 16700 },
@@ -241,7 +241,7 @@ const shorts = [
   { id: "3yBH6jAGBKY", title: "Me Rindo a Ti", lang: "spanish", views: 277000 },
   { id: "rhP-YiyaLmM", title: "तुझसे जुड़ गयी हूँ मैं", lang: "hindi", views: 26800 },
   { id: "uxofoKz8WwU", title: "Con Tu Luz", lang: "spanish", views: 7960 },
-  { id: "bxQY60UewCo", title: "Tus miradas me encienden el alma", lang: "spanish", views: 41500 },
+  { id: "bxQY60UewCo", title: "Tus miradas me encienden el alma", lang: "spanish", views: 41600 },
   { id: "_aRRfXsRIec", title: "Drawn To You", lang: "english", views: 21300 },
   { id: "LYphXqicRB4", title: "Only You In The Room", lang: "english", views: 10200 },
   { id: "tCOIM3mQXKw", title: "Sin Ti No Puedo Vivir", lang: "spanish", views: 10700 },
