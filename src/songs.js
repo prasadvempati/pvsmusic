@@ -42,7 +42,7 @@ const hindi = [
 ];
 
 const english = [
-  { id: "EXSgHfcY3lE", title: "The Way You Look at Me", views: 987 },
+  { id: "EXSgHfcY3lE", title: "The Way You Look at Me", views: 996 },
   { id: "La0zUp9Se5M", title: "Tangible Skin", views: 621 },
   { id: "Qi--c7WJmP0", title: "Sole Desire", views: 1760 },
   { id: "_5j4eh-ZpVc", title: "Made for the Spotlight", views: 4380 },
@@ -139,14 +139,15 @@ const spanish = [
 
 // Shorts (lang = hindi | english | spanish)
 const shorts = [
-  { id: "CecgUhDtrYY", title: "Se Me Olvida el Mundo", lang: "spanish", views: 2510 },
+  { id: "BxP8KT5alI0", title: "रेशमी ख़ामोशी", lang: "hindi", views: 49 },
+  { id: "CecgUhDtrYY", title: "Se Me Olvida el Mundo", lang: "spanish", views: 2550 },
   { id: "rEwdA3XuVak", title: "एन्ना सोना दिल मेरा", lang: "hindi", views: 1040 },
   { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 1380 },
   { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 1180 },
-  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 168000 },
+  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 169000 },
   { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 28700 },
   { id: "DDEtgiTsSFE", title: "Before the Sky Turns Blue", lang: "english", views: 14300 },
-  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 78000 },
+  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 78200 },
   { id: "TFePDr1p8m8", title: "चुपके से", lang: "hindi", views: 67500 },
   { id: "mrNzeTfJg1M", title: "Until I See Your Face", lang: "english", views: 5380 },
   { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 8560 },
@@ -186,7 +187,7 @@ const shorts = [
   { id: "47EXEYnlvrw", title: "Souls Without End", lang: "english", views: 20300 },
   { id: "vwxVBXSFTVQ", title: "Cuando Tú Pasas", lang: "spanish", views: 19000 },
   { id: "7rgQXp4KNfM", title: "नज़रें मिली तो", lang: "hindi", views: 741000 },
-  { id: "GrNbmtaGqzM", title: "You're not mine", lang: "english", views: 33800 },
+  { id: "GrNbmtaGqzM", title: "You're not mine", lang: "english", views: 33900 },
   { id: "4QOxLMGJllI", title: "Algo Entre los Dos", lang: "spanish", views: 18900 },
   { id: "AKZepYI8n70", title: "एक अजनबी सी राह में", lang: "hindi", views: 23700 },
   { id: "ObwN8v-KRqM", title: "Lose the Ground", lang: "english", views: 16700 },
