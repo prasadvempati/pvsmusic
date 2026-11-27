@@ -3,6 +3,7 @@
 // To hide a video or fix a language/title, edit src/song-overrides.json.
 
 const hindi = [
+  { id: "7nGlbExIODg", title: "सिलसिले", views: 192 },
   { id: "lm-7TfyzXlw", title: "मीठी मखमली छाँव", views: 1680 },
   { id: "UQ5-JpW6-wU", title: "सिंदूरी अनुराग", views: 1330 },
   { id: "y9QTYxh7_aw", title: "Tujh Mein Basa Hai Pyaar Mera", views: 8750 },
@@ -19,10 +20,10 @@ const hindi = [
   { id: "6umjZzBpO_k", title: "एक अनकही सी कथा", views: 2800 },
   { id: "luCHZ0kFKQo", title: "रंग तेरा", views: 1030 },
   { id: "QWTIc1iVBMg", title: "झनक झनक पायलिया", views: 56500 },
-  { id: "jwBzeVrSxQA", title: "तू ही मेरी आदत", views: 1600 },
+  { id: "jwBzeVrSxQA", title: "तू ही मेरी आदत", views: 1610 },
   { id: "6qqtx0AHLhk", title: "तेरे संग बहारें", views: 8740 },
   { id: "My_1qLF14B0", title: "तेरी आँखों का राज़", views: 2320 },
-  { id: "qIIUpksQq30", title: "तेरे संग बंधी", views: 962 },
+  { id: "qIIUpksQq30", title: "तेरे संग बंधी", views: 963 },
   { id: "i6T7xkorXD0", title: "अब मैं चलूँ", views: 2150 },
   { id: "as1QFibgV5I", title: "राहें तेरी ओर", views: 1330 },
   { id: "ScjCHPQegLU", title: "ये रात सुहानी", views: 654 },
@@ -42,10 +43,10 @@ const hindi = [
 ];
 
 const english = [
-  { id: "EXSgHfcY3lE", title: "The Way You Look at Me", views: 1390 },
+  { id: "EXSgHfcY3lE", title: "The Way You Look at Me", views: 1410 },
   { id: "La0zUp9Se5M", title: "Tangible Skin", views: 745 },
   { id: "Qi--c7WJmP0", title: "Sole Desire", views: 1770 },
-  { id: "_5j4eh-ZpVc", title: "Made for the Spotlight", views: 6390 },
+  { id: "_5j4eh-ZpVc", title: "Made for the Spotlight", views: 6400 },
   { id: "GC62GWF5zCo", title: "When Snow Turns to Fire", views: 1550 },
   { id: "fdXH5_qR0-Y", title: "More Than Words", views: 6500 },
   { id: "YHEBCQEQc-c", title: "When The Light Fades Low", views: 10700 },
@@ -103,6 +104,7 @@ const english = [
 ];
 
 const spanish = [
+  { id: "RfJJCvH5T1A", title: "Carta Que Nunca Te Di", views: 47 },
   { id: "VmzXLEROu7w", title: "Sin Saber Escribir Amor", views: 2270 },
   { id: "CwFLGK00Q1c", title: "Más Que Palabras", views: 2550 },
   { id: "_VGZa8cBt6Y", title: "La Fiesta de Mi Corazón", views: 12200 },
@@ -118,7 +120,7 @@ const spanish = [
   { id: "svGIjYeJa8w", title: "Vuelve, Regresa", views: 1350 },
   { id: "oACsT36UExc", title: "Tan Perfecta", views: 9520 },
   { id: "1m9JqeoRSVo", title: "Se Me Pega Tu Ritmo", views: 2880 },
-  { id: "9VhcnWK2ZNY", title: "Dime por qué", views: 2700 },
+  { id: "9VhcnWK2ZNY", title: "Dime por qué", views: 2710 },
   { id: "tyMDZ_-rd1Y", title: "Sin Ser Mío", views: 2080 },
   { id: "Fqiy1TSr76E", title: "Almas Sin Final", views: 1150 },
   { id: "TI1QJ13cSXA", title: "Cuando Me Miras Así (Version 2)", views: 3550 },
@@ -139,17 +141,18 @@ const spanish = [
 
 // Shorts (lang = hindi | english | spanish)
 const shorts = [
-  { id: "BxP8KT5alI0", title: "रेशमी ख़ामोशी", lang: "hindi", views: 8250 },
-  { id: "CecgUhDtrYY", title: "Se Me Olvida el Mundo", lang: "spanish", views: 4150 },
+  { id: "bf3ALRauSNQ", title: "धड़कनें चुरा के", lang: "hindi", views: 57 },
+  { id: "BxP8KT5alI0", title: "रेशमी ख़ामोशी", lang: "hindi", views: 9090 },
+  { id: "CecgUhDtrYY", title: "Se Me Olvida el Mundo", lang: "spanish", views: 4360 },
   { id: "rEwdA3XuVak", title: "एन्ना सोना दिल मेरा", lang: "hindi", views: 1230 },
-  { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 1500 },
+  { id: "aN2uXeUJ1Lo", title: "बेफिक्र", lang: "hindi", views: 1510 },
   { id: "iftv_O-JT0o", title: "Let Them Talk", lang: "english", views: 1300 },
-  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 206000 },
+  { id: "Ha7rksyo4Tw", title: "इतना भी क्या रूठना", lang: "hindi", views: 208000 },
   { id: "nf9uzYXxIos", title: "Un Refugio", lang: "spanish", views: 28800 },
   { id: "DDEtgiTsSFE", title: "Before the Sky Turns Blue", lang: "english", views: 14400 },
-  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 85900 },
-  { id: "TFePDr1p8m8", title: "चुपके से", lang: "hindi", views: 71800 },
-  { id: "mrNzeTfJg1M", title: "Until I See Your Face", lang: "english", views: 5530 },
+  { id: "l5qJZ5UKYDY", title: "भीगी भीगी हवा", lang: "hindi", views: 86000 },
+  { id: "TFePDr1p8m8", title: "चुपके से", lang: "hindi", views: 71900 },
+  { id: "mrNzeTfJg1M", title: "Until I See Your Face", lang: "english", views: 5540 },
   { id: "KdQkjbbwDXc", title: "Mírame Bien", lang: "spanish", views: 8600 },
   { id: "8jfKdEl8UNE", title: "नज़र का जादू", lang: "hindi", views: 3980 },
   { id: "OsY2HR6UunU", title: "Poema De Un Instante", lang: "spanish", views: 4460 },
@@ -160,11 +163,11 @@ const shorts = [
   { id: "Xp7lmDbeSm0", title: "ख़त नहीं, दिल भेजूँ", lang: "hindi", views: 319000 },
   { id: "-Bv5KAiw_g4", title: "Without You, I Am Empty", lang: "english", views: 5220 },
   { id: "2pF3vdJWkM0", title: "सच बोल दे", lang: "hindi", views: 8230 },
-  { id: "yduEdNduB1c", title: "What Your Eyes Keep Saying", lang: "english", views: 6550 },
+  { id: "yduEdNduB1c", title: "What Your Eyes Keep Saying", lang: "english", views: 6560 },
   { id: "Q0JNRvMeTmI", title: "मीठी चुभन", lang: "hindi", views: 294000 },
   { id: "0ez-wnwP6xI", title: "तूने कुछ ऐसा किया", lang: "hindi", views: 12200 },
   { id: "gl9wQLfuXVc", title: "Stay Where I am", lang: "english", views: 8900 },
-  { id: "bi5qXNw-75c", title: "Cuando Te Recuerdo", lang: "spanish", views: 8590 },
+  { id: "bi5qXNw-75c", title: "Cuando Te Recuerdo", lang: "spanish", views: 8600 },
   { id: "3XpLxLEUxZA", title: "The Promise of Your Smile", lang: "english", views: 11600 },
   { id: "D3kIrELzCQA", title: "धीमे धीमे चल ज़िंदगी", lang: "hindi", views: 16700 },
   { id: "9Fpdc-e7LAE", title: "Bello Espejismo", lang: "spanish", views: 26800 },
@@ -175,7 +178,7 @@ const shorts = [
   { id: "S4YhPWF7ZVs", title: "Ay corazón, me tienes temblando", lang: "spanish", views: 22100 },
   { id: "92dgyw4ufeE", title: "Where My Heart Begins", lang: "english", views: 21200 },
   { id: "zpVf_U8F0aQ", title: "शाम की परछाईं", lang: "hindi", views: 23600 },
-  { id: "PS27C7aSlro", title: "Cuando Mi Alma Te Nombra", lang: "spanish", views: 44000 },
+  { id: "PS27C7aSlro", title: "Cuando Mi Alma Te Nombra", lang: "spanish", views: 44200 },
   { id: "CEx6R5HhLUM", title: "रात की रोशनी", lang: "hindi", views: 26300 },
   { id: "AN18ic7QzMw", title: "Something Between Us", lang: "english", views: 18200 },
   { id: "qZ3_gkwzNjE", title: "Cuando Te Acercas", lang: "spanish", views: 31100 },
